@@ -42,15 +42,15 @@
                             <td>{{ $value->email }}</td>
                             <td>{{ substr_replace($value->address, "...", 20) }}</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-icon btn-primary" type="button" data-toggle="tooltip" data-placement="top" title="View Patient Info">
+                                <a class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="View Patient Info" href="{{ url('view-patient-information') }}">
                                     <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
-                                </button>
-                                <button class="btn btn-sm btn-icon btn-warning" type="button" data-toggle="tooltip" data-placement="top" title="Update Patient Info">
+                                </a>
+                                <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Update Patient Info" href="{{ url('update-patient-information') }}">
                                     <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
-                                </button>
-                                <button class="btn btn-sm btn-icon btn-danger" type="button" data-toggle="tooltip" data-placement="top" title="Delete Patient Info">
+                                </a>
+                                <a class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Patient Info" href="{{ url('delete-patient-information') }}">
                                     <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     @endforeach

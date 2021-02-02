@@ -12,5 +12,5 @@ generalFunctions = {
 	{
 		var loc = window.location.pathname;
 		$('#'+loc.split("/")[1]+' a').addClass('active');
-	}
+	},
 }
