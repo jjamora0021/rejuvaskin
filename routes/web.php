@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
 Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('dashboard', 'HomeController@index')->name('dashboard');
+Route::get('patient-information', 'PatientInformationController@index')->name('patient-information');
+Route::get('add-patient-information', 'PatientInformationController@create')->name('add-patient-information');
+Route::post('store-patient-information', 'PatientInformationController@store')->name('store-patient-information');

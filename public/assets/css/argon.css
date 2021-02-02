@@ -2236,7 +2236,7 @@ pre code
 
 .table-striped tbody tr:nth-of-type(odd)
 {
-    background-color: rgba(246, 249, 252, .3);
+    background-color: #8898aa0d;
 }
 
 .table-hover tbody tr:hover
@@ -6160,6 +6160,7 @@ input[type='button'].btn-block
 .navbar-light .navbar-nav .nav-link:focus
 {
     color: rgba(0, 0, 0, .7);
+    font-weight: bold;
 }
 .navbar-light .navbar-nav .nav-link.disabled
 {
@@ -21597,6 +21598,7 @@ textarea[resize='horizontal']
 
     border-radius: .375rem; 
     background: #f6f9fc;
+    font-weight: bold;
 }
 .navbar-vertical.navbar-expand-xs .lavalamp-object
 {

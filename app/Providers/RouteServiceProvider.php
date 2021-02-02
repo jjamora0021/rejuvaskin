@@ -11,13 +11,21 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * The path to the "home" route for your application.
+     * This namespace is applied to your controller routes.
      *
-     * This is used by Laravel authentication to redirect users after login.
+     * In addition, it is set as the URL generator's root namespace.
      *
      * @var string
      */
-    public const HOME = '/home';
+    protected $namespace = 'App\Http\Controllers';
+    
+    /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    // public const HOME = '/home';
+    public const DASHBOARD = '/dashboard';
 
     /**
      * The controller namespace for the application.
