@@ -26,4 +26,13 @@ class HomeController extends Controller
     {
         return view('pages.dashboard.dashboard');
     }
+
+    /**
+     * [calendar description]
+     * @return [type] [description]
+     */
+    public function calendar()
+    {
+        return view('pages.calendar.calendar');
+    }
 }

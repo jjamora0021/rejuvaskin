@@ -45,6 +45,29 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="birth_date">Date of Birth</label><small><i><span class="text-danger">*</span></i></small>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                        </div>
+                                        <input class="form-control datepicker" placeholder="Select date" type="text" name="birth_date" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="gender">Gender</label><small><i><span class="text-danger">*</span></i></small>
+                                    <select class="form-control" id="gender" name="gender">
+                                        <option value="">Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <hr class="my-4" />
@@ -65,13 +88,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="home_number">Home Number</label><small><i><span class="text-danger"> Optional</span></i></small>
-                                    <input type="text" name="home_number" class="form-control" value="{{ old('home_number') }}" placeholder="02XXXXXXXX">
+                                    <input type="text" name="home_number" class="form-control" value="{{ old('home_number') }}" placeholder="02XXXXXXXX" minlength="10" maxlength="10">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-control-label" for="mobile_number">Mobile Number</label><small><i><span class="text-danger">*</span></i></small>
-                                    <input type="text" name="mobile_number" class="form-control" placeholder="09XXXXXXXXX" value="{{ old('mobile_number') }}" required>
+                                    <input type="text" name="mobile_number" class="form-control" placeholder="09XXXXXXXXX" minlength="11" maxlength="11" value="{{ old('mobile_number') }}" required>
                                 </div>
                             </div>
                             <div class="col-md-4">

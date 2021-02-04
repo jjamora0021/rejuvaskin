@@ -28,10 +28,22 @@ class PatientInformation extends Model
      * [show description]
      * @return [type] [description]
      */
-    public function show()
+    public function fetchAll()
     {
     	$data = (DB::table('patient_information')->get())->toArray();
 
     	return $data;
+    }
+
+    /**
+     * [show description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function show($id)
+    {
+    	$patient = (DB::table('patient_information')->where('id',$id)->get())->toArray();
+
+    	return $patient;
     }
 }

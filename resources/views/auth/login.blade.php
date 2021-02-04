@@ -86,14 +86,23 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                <button type="submit" class="btn btn-primary my-4">Login</button>
-                                <div class="col-12">
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link text-light" href="{{ route('password.request') }}">
-                                            <small>{{ __('Forgot Your Password?') }}</small>
-                                        </a>
-                                    @endif
-                                </div>
+                                    <button type="submit" class="btn btn-primary my-4">Login</button>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-md-6 p-0 text-left">
+                                                <a class="btn btn-link text-warning" href="{{ route('register') }}">
+                                                    <small>{{ __('Create User') }}</small>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6 p-0 text-right">
+                                                @if (Route::has('password.request'))
+                                                    <a class="btn btn-link text-warning" href="{{ route('password.request') }}">
+                                                        <small>{{ __('Forgot Password') }}</small>
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>

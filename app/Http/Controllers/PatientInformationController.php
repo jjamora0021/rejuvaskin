@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PatientInformation;
+use App\Models\PatientHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,6 +25,7 @@ class PatientInformationController extends Controller
 
         $this->User = new \App\Models\User;
         $this->PatientInformation = new \App\Models\PatientInformation;
+        $this->PatientHistory = new \App\Models\PatientHistory;
     }
 
     /**
@@ -33,7 +35,7 @@ class PatientInformationController extends Controller
      */
     public function index()
     {
-        $patient_list = $this->PatientInformation->show();
+        $patient_list = $this->PatientInformation->fetchAll();
         
         return view('pages.patient-information.patient-information', compact('patient_list'));
     }
@@ -57,9 +59,11 @@ class PatientInformationController extends Controller
     public function store(Request $request)
     {
         $data = [
-            'first_name'     => trim($request['first_name']),
+            'first_name'    => trim($request['first_name']),
             'middle_name'   => trim($request['middle_name']),
             'last_name'     => trim($request['last_name']),
+            'birth_date'    => trim($request['birth_date']),
+            'gender'        => trim($request['gender']),
             'address'       => trim($request['address']),
             'home_number'   => trim($request['home_number']),
             'mobile_number' => trim($request['mobile_number']),
@@ -81,16 +85,34 @@ class PatientInformationController extends Controller
     }
 
     /**
+     * [fetchAll description]
+     * @return [type] [description]
+     */
+    public function fetchAll()
+    {
+        $patients = $this->PatientInformation->fetchAll();
+
+        return $patients;
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\PatientInformation  $patientInformation
      * @return \Illuminate\Http\Response
      */
-    public function show(PatientInformation $patientInformation)
+    public function show($id)
     {
-        $patients = PatientInformation::show();
+        $patient = $this->PatientInformation->show($id);
+        if(!empty($patient))
+        {
+            $patient = $patient[0];
+        }
 
-        return $patients;
+        $patient_history = $this->PatientHistory->checkPatientHistory($id);
+        $visit_count = count($patient_history);
+
+        return view('pages.patient-information.view-patient-information', compact('patient','patient_history','visit_count'));
     }
 
     /**
@@ -111,9 +133,37 @@ class PatientInformationController extends Controller
      * @param  \App\Models\PatientInformation  $patientInformation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PatientInformation $patientInformation)
+    public function update(Request $request, PatientInformation $patientInformation, $patient_id)
     {
-        //
+        $imageName_before = Carbon::today()->toDateString().'_before.'.$request->before_image->extension();
+        $imageName_after = Carbon::today()->toDateString().'_after.'.$request->after_image->extension();
+
+        $patient_history = [
+            'patient_id'        => $patient_id,
+            'last_procedure'    => $request['last_procedure'],
+            'last_visit'        => $request['last_visit'],
+            'remarks'           => $request['remarks'],
+            'bill'              => $request['bill'],
+            'discount'          => $request['discount'],
+            'before_image'      => $imageName_before,
+            'after_image'       => $imageName_after,
+            'created_at'        => Carbon::now(),
+            'updated_at'        => Carbon::now()
+        ];
+
+        $save = $this->PatientHistory->store($patient_history, $patient_id);
+        
+        if($save)
+        {
+            $request->before_image->move(public_path('images'), $imageName_before);
+            $request->after_image->move(public_path('images'), $imageName_after);
+
+            return back()->with('success', 'Patient information successfully saved.');
+        }   
+        else
+        {
+            return back()->with('fail', 'Patient information failed to be saved.');
+        }
     }
 
     /**
@@ -122,8 +172,8 @@ class PatientInformationController extends Controller
      * @param  \App\Models\PatientInformation  $patientInformation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PatientInformation $patientInformation)
+    public function destroy(PatientInformation $patientInformation, $patient_id)
     {
-        //
+        dd($patient_id);
     }
 }

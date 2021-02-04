@@ -16,12 +16,14 @@
             </div>
 
             <table class="table align-items-center table-striped" width="100%" id="patient-list-table">
-                <thead>
+                <thead class="thead-light">
                     <tr>
                         <th hidden>ID</th>
                         <th class="font-weight-bold">First Name</th>
                         <th class="font-weight-bold">Middle Name</th>
                         <th class="font-weight-bold">Last Name</th>
+                        <th class="font-weight-bold">Date of Birth</th>
+                        <th class="font-weight-bold">Gender</th>
                         <th class="font-weight-bold">Home Number</th>
                         <th class="font-weight-bold">Mobile Number</th>
                         <th class="font-weight-bold">Email</th>
@@ -30,25 +32,27 @@
                     </tr>
                 </thead>
                 @if(!empty($patient_list))
-                <tbody>
+                <tbody class="list">
                     @foreach($patient_list as $key => $value)
                         <tr>
                             <td hidden>{{ $value->id }}</td>
                             <td>{{ $value->first_name }}</td>
                             <td>{{ $value->middle_name }}</td>
                             <td>{{ $value->last_name }}</td>
+                            <td>{{ \Carbon\Carbon::parse($value->birth_date)->format('F d, Y') }}</td>
+                            <td class="text-capitalize">{{ $value->gender }}</td>
                             <td>{{ $value->home_number }}</td>
                             <td>{{ $value->mobile_number }}</td>
                             <td>{{ $value->email }}</td>
                             <td>{{ substr_replace($value->address, "...", 20) }}</td>
                             <td class="text-center">
-                                <a class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="View Patient Info" href="{{ url('view-patient-information') }}">
+                                <a class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="View Patient Info" href="{{ url('view-patient-information') }}/{{ $value->id }}">
                                     <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
                                 </a>
-                                <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Update Patient Info" href="{{ url('update-patient-information') }}">
+                                <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Update Patient Info" href="{{ url('update-patient-information') }}/{{ $value->id }}">
                                     <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
                                 </a>
-                                <a class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Patient Info" href="{{ url('delete-patient-information') }}">
+                                <a class="btn btn-sm btn-icon btn-danger" data-toggle="tooltip" data-placement="top" title="Delete Patient Info" href="{{ url('delete-patient-information') }}/{{ $value->id }}">
                                     <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
                                 </a>
                             </td>

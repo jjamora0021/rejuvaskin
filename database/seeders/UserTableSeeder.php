@@ -20,7 +20,6 @@ class UserTableSeeder extends Seeder
         $now = Carbon::now();
         $users = [
         	[
-                'user_id' => Str::random(40) . time(),
 	            'first_name' => 'John Joshua',
                 'middle_name' => 'Alforte',
                 'last_name' => 'Jamora',
@@ -33,7 +32,6 @@ class UserTableSeeder extends Seeder
 	            'updated_at' => $now
         	],
             [
-                'user_id' => Str::random(40) . time(),
                 'first_name' => 'Maria Theressa',
                 'middle_name' => 'Maniquiz',
                 'last_name' => 'Maneclang',

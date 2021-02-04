@@ -18,6 +18,8 @@ class CreatePatientInformationTable extends Migration
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
+            $table->string('birth_date');
+            $table->enum('gender',['male','female']);
             $table->string('home_number')->nullable();
             $table->string('mobile_number');
             $table->string('email');
