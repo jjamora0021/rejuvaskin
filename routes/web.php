@@ -16,16 +16,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('login');
 });
-
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout');
 
+// Dashboard
 Route::get('dashboard', 'HomeController@index')->name('dashboard');
+
+// Calendar
 Route::get('calendar', 'HomeController@calendar')->name('calendar');
 
+// Patients
+Route::get('fetch-all-patient-info', 'PatientInformationController@fetchAll')->name('fetch-all-patient-info');
 Route::get('patient-information', 'PatientInformationController@index')->name('patient-information');
 Route::get('add-patient-information', 'PatientInformationController@create')->name('add-patient-information');
 Route::post('store-patient-information', 'PatientInformationController@store')->name('store-patient-information');
 Route::get('view-patient-information/{id}', 'PatientInformationController@show')->name('view-patient-information');
-Route::put('update-patient-information/{id}', 'PatientInformationController@update')->name('update-patient-information');
-Route::get('delete-patient-information/{id}', 'PatientInformationController@destroy')->name('delete-patient-information');
+Route::put('update-patient-history/{id}', 'PatientInformationController@update')->name('update-patient-history');
+Route::get('delete-patient-information', 'PatientInformationController@deleteRecord')->name('delete-patient-information');
+Route::get('update-patient-information/{id}', 'PatientInformationController@loadUpdatePatientInformationPage');
+Route::post('update-patient-information/{id}', 'PatientInformationController@updatePatientInformation')->name('update-patient-information');
+
+// Inventory
+Route::get('inventory-list', 'InventoryController@index')->name('inventory-list');

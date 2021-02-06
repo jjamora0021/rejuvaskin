@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2/dist/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/select2/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/fileinput.min.css') }}">
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/dataTables.bootstrap4.min.css') }}" type="text/css">
@@ -60,6 +61,7 @@
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/components/vendor/bootstrap-select.min.js') }}"></script>
 
     <!-- Argon JS -->
     <script src="{{ asset('assets/js/argon.js') }}"></script>

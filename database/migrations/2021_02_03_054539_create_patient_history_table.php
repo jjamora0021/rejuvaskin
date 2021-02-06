@@ -18,8 +18,9 @@ class CreatePatientHistoryTable extends Migration
             $table->integer('patient_id');
             $table->string('last_visit');
             $table->string('last_procedure');
-            $table->longText('before_image');
-            $table->longText('after_image');
+            $table->longText('before_image')->nullable();
+            $table->longText('after_image')->nullable();
+            $table->json('medicines_used')->nullable();
             $table->string('bill');
             $table->string('discount');
             $table->longText('remarks');

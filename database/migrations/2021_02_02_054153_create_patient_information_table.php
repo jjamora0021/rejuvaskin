@@ -24,6 +24,7 @@ class CreatePatientInformationTable extends Migration
             $table->string('mobile_number');
             $table->string('email');
             $table->longText('address');
+            $table->boolean('deleted_at')->default(false);
             $table->timestamps();
         });
     }

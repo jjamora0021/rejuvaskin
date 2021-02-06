@@ -50,6 +50,12 @@
 							</ul>
 						</div>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url('inventory-list') }}" id="inventory-list">
+							<i class="fas fa-file-prescription text-warning"></i>
+							<span class="nav-link-text">Inventory</span>
+						</a>
+					</li>
 				</ul>
 				<!-- Divider -->
 				<hr class="my-3">

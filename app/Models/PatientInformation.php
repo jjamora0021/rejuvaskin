@@ -30,7 +30,7 @@ class PatientInformation extends Model
      */
     public function fetchAll()
     {
-    	$data = (DB::table('patient_information')->get())->toArray();
+    	$data = (DB::table('patient_information')->where('deleted_at',false)->get())->toArray();
 
     	return $data;
     }
@@ -45,5 +45,18 @@ class PatientInformation extends Model
     	$patient = (DB::table('patient_information')->where('id',$id)->get())->toArray();
 
     	return $patient;
+    }
+
+    /**
+     * [update description]
+     * @param  [type] $data       [description]
+     * @param  [type] $patient_id [description]
+     * @return [type]             [description]
+     */
+    public function updatePatientInformation($data, $patient_id)
+    {
+        $result = DB::table('patient_information')->where('id',$patient_id)->update($data);
+
+        return $result;
     }
 }

@@ -51,4 +51,20 @@ class PatientHistory extends Model
 
     	return $store;
     }
+
+    /**
+     * [delete description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function deleteRecord($id)
+    {
+        $deleted_at = [
+            'deleted_at' => true,
+            'updated_at' => Carbon::now()
+        ];
+        $result = DB::table('patient_information')->where('id',$id)->update($deleted_at);
+
+        return $result;
+    }
 }

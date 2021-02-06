@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PatientInformation;
 use App\Models\PatientHistory;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -26,6 +27,7 @@ class PatientInformationController extends Controller
         $this->User = new \App\Models\User;
         $this->PatientInformation = new \App\Models\PatientInformation;
         $this->PatientHistory = new \App\Models\PatientHistory;
+        $this->Inventory = new \App\Models\Inventory;
     }
 
     /**
@@ -108,11 +110,11 @@ class PatientInformationController extends Controller
         {
             $patient = $patient[0];
         }
-
+        $meds = $this->Inventory->fetchAll();
         $patient_history = $this->PatientHistory->checkPatientHistory($id);
         $visit_count = count($patient_history);
 
-        return view('pages.patient-information.view-patient-information', compact('patient','patient_history','visit_count'));
+        return view('pages.patient-information.view-patient-information', compact('patient','patient_history','visit_count','meds'));
     }
 
     /**
@@ -135,8 +137,8 @@ class PatientInformationController extends Controller
      */
     public function update(Request $request, PatientInformation $patientInformation, $patient_id)
     {
-        $imageName_before = Carbon::today()->toDateString().'_before.'.$request->before_image->extension();
-        $imageName_after = Carbon::today()->toDateString().'_after.'.$request->after_image->extension();
+        $imageName_before = (isset($request->before_image) == true ? Carbon::today()->toDateString().'_before.'.$request->before_image->extension() : null);
+        $imageName_after = (isset($request->after_image) == true ? Carbon::today()->toDateString().'_after.'.$request->after_image->extension() : null);
 
         $patient_history = [
             'patient_id'        => $patient_id,
@@ -155,8 +157,12 @@ class PatientInformationController extends Controller
         
         if($save)
         {
-            $request->before_image->move(public_path('images'), $imageName_before);
-            $request->after_image->move(public_path('images'), $imageName_after);
+            if(isset($request->before_image)) {
+                $request->before_image->move(public_path('images'), $imageName_before);
+            }
+            if(isset($request->after_image)) {
+                $request->after_image->move(public_path('images'), $imageName_after);
+            }
 
             return back()->with('success', 'Patient information successfully saved.');
         }   
@@ -172,8 +178,58 @@ class PatientInformationController extends Controller
      * @param  \App\Models\PatientInformation  $patientInformation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PatientInformation $patientInformation, $patient_id)
+    public function deleteRecord(Request $request)
     {
-        dd($patient_id);
+        $delete = $this->PatientHistory->deleteRecord($request['id']);
+        
+        return $delete;
+    }
+
+    /**
+     * [updatePatientInformation description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function loadUpdatePatientInformationPage(Request $request)
+    {
+        $patient = $this->PatientInformation->show($request->id);
+        if(!empty($patient))
+        {
+            $patient = $patient[0];
+        }
+        
+        return view('pages.patient-information.update-patient-information', compact('patient'));
+    }
+
+    /**
+     * [updatePatientInformation description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function updatePatientInformation(Request $request, PatientInformation $patientInformation, $patient_id)
+    {
+        $data = [
+            'first_name'    => trim($request['first_name']),
+            'middle_name'   => trim($request['middle_name']),
+            'last_name'     => trim($request['last_name']),
+            'birth_date'    => trim($request['birth_date']),
+            'gender'        => trim($request['gender']),
+            'address'       => trim($request['address']),
+            'home_number'   => trim($request['home_number']),
+            'mobile_number' => trim($request['mobile_number']),
+            'email'         => trim($request['email']),
+            'updated_at'    => Carbon::now()
+        ];
+
+        $update = $this->PatientInformation->updatePatientInformation($data, $request->id);
+
+        if($update)
+        {
+            return back()->with('success', 'Patient information successfully updated.');
+        }
+        else
+        {
+            return back()->with('fail', 'Patient information failed to be updated.')->withInput();
+        }
     }
 }

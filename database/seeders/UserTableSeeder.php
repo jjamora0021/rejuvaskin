@@ -33,7 +33,7 @@ class UserTableSeeder extends Seeder
         	],
             [
                 'first_name' => 'Maria Theressa',
-                'middle_name' => 'Maniquiz',
+                'middle_name' => '',
                 'last_name' => 'Maneclang',
                 'email' => 'maneclangmariatheressa@yahoo.com',
                 'password' => bcrypt('password'),

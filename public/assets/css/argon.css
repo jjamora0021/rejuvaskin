@@ -2008,7 +2008,7 @@ pre code
 
 .table-striped tbody tr:nth-of-type(odd)
 {
-    background-color: rgba(246, 249, 252, .3);
+    background-color: rgb(229 242 255);
 }
 
 .table-hover tbody tr:hover
@@ -4132,6 +4132,11 @@ input[type='button'].btn-block
 .collapse:not(.show)
 {
     display: none;
+}
+
+.card-header[data-toggle="collapse"]
+{
+    cursor: pointer;
 }
 
 .collapsing
@@ -21638,7 +21643,7 @@ textarea[resize='horizontal']
 }
 .navbar-vertical .navbar-nav .nav-link > i
 {
-    font-size: .9375rem;
+    font-size: 1.1rem;
     line-height: 1.5rem; 
 
     min-width: 2rem;

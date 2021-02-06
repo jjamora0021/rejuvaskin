@@ -30,7 +30,7 @@
                         <strong>{{ Session::get('fail') }}</strong>
                     </div>
                 @endif
-                <form method="POST" action="{{ route('update-patient-information', $patient->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('update-patient-history', $patient->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <!-- Patient Information -->
@@ -124,17 +124,17 @@
                                 <div id="accordion">  
                                     @foreach($patient_history as $key => $value)
                                         <div class="card" id="card-{{ $value->id }}">
-                                            <div class="card-header d-flex p-3" id="heading'+visit_count+'" data-toggle="collapse" data-target="#collapse{{ $value->id }}" aria-expanded="true" aria-controls="collapse{{ $value->id }}">
+                                            <div class="card-header d-flex p-3 bg-primary" id="heading'+visit_count+'" data-toggle="collapse" data-target="#collapse{{ $value->id }}" aria-expanded="true" aria-controls="collapse{{ $value->id }}">
                                                 <div class="col-md-11 p-0">
-                                                    <h4 class="mb-0">
-                                                        Visit {{ $value->id }}
+                                                    <h4 class="mb-0 text-white">
+                                                        Visit {{ $value->id }} : {{ \Carbon\Carbon::parse($value->last_visit)->format('F d, Y') }}
                                                     </h4>
                                                 </div>
-                                                <div class="col-md-1 p-0 text-right">
+                                                {{-- <div class="col-md-1 p-0 text-right">
                                                     <button class="btn btn-sm btn-danger" id="remove-card-btn" type="button" onclick="generalFunctions.removeAccordionCard({{ $visit_count }});">X</button>
-                                                </div>
+                                                </div> --}}
                                             </div>
-                                            <div id="collapse{{ $value->id }}" class="collapse show" aria-labelledby="heading{{ $value->id }}" data-parent="#accordion">
+                                            <div id="collapse{{ $value->id }}" class="collapse" aria-labelledby="heading{{ $value->id }}" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <div class="row">
                                                         <div class="col-md-9">
@@ -164,18 +164,34 @@
                                                         </div>
                                                     </div>
                                                     <div class="row pb-4">
-                                                        <div class="col-md-6 text-center">
-                                                            <div class="form-group text-left">
-                                                                <label class="form-control-label" for="before_image">Before</label><small><i><span class="text-danger">*</span></i></small>
+                                                        @if($value->before_image != null)
+                                                            <div class="col-md-6 text-center">
+                                                                <div class="form-group text-left">
+                                                                    <label class="form-control-label" for="before_image">Before</label><small><i><span class="text-danger">*</span></i></small>
+                                                                </div>
+                                                                <img src="{{ asset('images') }}/{{ $value->before_image }}" class="rounded" alt="Cinque Terre" width="50%">
                                                             </div>
-                                                            <img src="{{ asset('images') }}/{{ $value->before_image }}" class="rounded" alt="Cinque Terre" width="50%">
-                                                        </div>
-                                                        <div class="col-md-6 text-center">
-                                                            <div class="form-group text-left">
-                                                                <label class="form-control-label" for="after_image">After</label><small><i><span class="text-danger">*</span></i></small>
+                                                        @else
+                                                            <div class="col-md-6 text-center align-middle">
+                                                                <div class="form-group align-middle">
+                                                                    <label class="form-control-label" for="before_image">No Before Image Uploaded</label>
+                                                                </div>
                                                             </div>
-                                                            <img src="{{ asset('images') }}/{{ $value->after_image }}" class="rounded" alt="Cinque Terre" width="50%">
-                                                        </div>
+                                                        @endif
+                                                        @if($value->after_image != null)
+                                                            <div class="col-md-6 text-center">
+                                                                <div class="form-group text-left">
+                                                                    <label class="form-control-label" for="after_image">After</label><small><i><span class="text-danger">*</span></i></small>
+                                                                </div>
+                                                                <img src="{{ asset('images') }}/{{ $value->after_image }}" class="rounded" alt="Cinque Terre" width="50%">
+                                                            </div>
+                                                        @else
+                                                            <div class="col-md-6 text-center align-middle">
+                                                                <div class="form-group align-middle">
+                                                                    <label class="form-control-label" for="before_image">No After Image Uploaded</label>
+                                                                </div>
+                                                            </div>
+                                                        @endif
                                                     </div>
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-3">
@@ -202,7 +218,7 @@
                                 </div>
                             @endif
                             <div class="row justify-content-center">
-                                <button class="btn btn-sm btn-primary" id="add-card-btn" type="button" onclick="generalFunctions.renderPatientHistoryFields({{ $patient->id }},{{ $visit_count }});">Add Record</button>
+                                <button class="btn btn-sm btn-primary" id="add-card-btn" type="button" onclick="generalFunctions.renderPatientHistoryFields({{ $patient->id }},{{ $visit_count }}, {{ json_encode($meds) }});">Add Record</button>
                             </div>
                         </div>
                     </div>
