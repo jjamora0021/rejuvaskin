@@ -44,6 +44,17 @@ class InventoryController extends Controller
     }
 
     /**
+     * [fetchAllMedicine description]
+     * @return [type] [description]
+     */
+    public function fetchAllMedicine()
+    {
+        $meds = $this->InventoriesModel->fetchAll();
+
+        return $meds;
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -93,9 +104,18 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Inventory $inventory)
+    public function updateStocks(Request $request, Inventory $inventory)
     {
-        //
+        $data = [
+            'id' => $request['id'],
+            'stocks_delivered' => $request['stocks'],
+            'delivery_date' => $request['delivery_date'],
+            'updated_at' => Carbon::now()
+        ];
+
+        $update = $this->InventoriesModel->updateStocks($request['id'], $data);
+
+        return $update;
     }
 
     /**

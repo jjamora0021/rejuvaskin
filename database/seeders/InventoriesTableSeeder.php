@@ -23,6 +23,7 @@ class InventoriesTableSeeder extends Seeder
                 'stocks' => '50',
                 'stocks_delivered' => null,
 	            'delivery_date' => null,
+                'deleted_at' => false,
 	            'created_at' => $now,
 	            'updated_at' => $now
         	],
@@ -31,6 +32,7 @@ class InventoriesTableSeeder extends Seeder
                 'stocks' => '124',
                 'stocks_delivered' => null,
 	            'delivery_date' => null,
+                'deleted_at' => false,
 	            'created_at' => $now,
 	            'updated_at' => $now
             ],
@@ -39,6 +41,7 @@ class InventoriesTableSeeder extends Seeder
                 'stocks' => '190',
                 'stocks_delivered' => null,
 	            'delivery_date' => null,
+                'deleted_at' => false,
 	            'created_at' => $now,
 	            'updated_at' => $now
             ],
@@ -47,6 +50,7 @@ class InventoriesTableSeeder extends Seeder
                 'stocks' => '25',
                 'stocks_delivered' => null,
 	            'delivery_date' => null,
+                'deleted_at' => false,
 	            'created_at' => $now,
 	            'updated_at' => $now
             ],
@@ -55,6 +59,7 @@ class InventoriesTableSeeder extends Seeder
                 'stocks' => '13',
                 'stocks_delivered' => null,
 	            'delivery_date' => null,
+                'deleted_at' => false,
 	            'created_at' => $now,
 	            'updated_at' => $now
             ],

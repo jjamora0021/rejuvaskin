@@ -22,4 +22,33 @@ class Inventory extends Model
 
     	return $data;
     }
+
+    /**
+     * [update description]
+     * @param  [type] $meds_id [description]
+     * @param  [type] $data    [description]
+     * @return [type]          [description]
+     */
+    public function updateStocks($meds_id, $data)
+    {
+        try {
+            $update =    DB::transaction(function () use ($meds_id, $data) {
+                            DB::table('inventories')->where('id',$meds_id)->increment('stocks', $data['stocks_delivered']);
+                            DB::table('inventories')->where('id',$meds_id)->update($data);
+                        }); 
+            return is_null($update) ? true : $update;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * [deleteMedicine description]
+     * @param  [type] $meds_id [description]
+     * @return [type]          [description]
+     */
+    public function deleteMedicine($meds_id)
+    {
+        
+    }
 }

@@ -139,6 +139,17 @@ class PatientInformationController extends Controller
     {
         $imageName_before = (isset($request->before_image) == true ? Carbon::today()->toDateString().'_before.'.$request->before_image->extension() : null);
         $imageName_after = (isset($request->after_image) == true ? Carbon::today()->toDateString().'_after.'.$request->after_image->extension() : null);
+        
+        $meds = array();
+        if(isset($request['selected-meds-count']) && $request['selected-meds-count'] != 0) {
+            for ($i = 1; $i < $request['selected-meds-count'] + 1; $i++) { 
+                $meds[$i] = [
+                    'meds_id' =>  $request['current_med_selected-'.$i],
+                    'meds_name' =>  $request['current_med_selected_text-'.$i],
+                    'quanity' => (int)$request['current_count-'.$i]
+                ];
+            }
+        }
 
         $patient_history = [
             'patient_id'        => $patient_id,
@@ -147,13 +158,14 @@ class PatientInformationController extends Controller
             'remarks'           => $request['remarks'],
             'bill'              => $request['bill'],
             'discount'          => $request['discount'],
+            'medicines_used'     => json_encode($meds),
             'before_image'      => $imageName_before,
             'after_image'       => $imageName_after,
             'created_at'        => Carbon::now(),
             'updated_at'        => Carbon::now()
         ];
 
-        $save = $this->PatientHistory->store($patient_history, $patient_id);
+        $save = $this->PatientHistory->store($patient_history, $meds, $patient_id);
         
         if($save)
         {

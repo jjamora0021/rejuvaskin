@@ -7093,8 +7093,8 @@ a.badge:focus
 
     display: block;
 
-    margin-bottom: -1px;
-    padding: 1rem 1rem;
+    /*margin-bottom: -1px;
+    padding: 1rem 1rem;*/
 
     border: 1px solid #e9ecef; 
     background-color: #fff;

@@ -17,6 +17,7 @@ class CreateInventoriesTable extends Migration
             $table->id();
             $table->string('medicine');
             $table->integer('stocks');
+            $table->boolean('deleted_at')->default(false);
             $table->integer('stocks_delivered')->nullable();
             $table->date('delivery_date')->nullable();
             $table->timestamps();

@@ -163,6 +163,31 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <hr class="my-4">
+
+                                                    <div class="row justify-content-center pb-4">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-left">
+                                                                <label class="form-control-label" for="after_image">Medicines Used</label>
+                                                            </div>
+                                                            @if(!empty($value->medicines_used))
+                                                                <ul class="list-group">
+                                                                    @foreach(json_decode($value->medicines_used) as $key => $val)
+                                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                            {{ $val->meds_name }}
+                                                                            <span class="badge badge-primary badge-pill"><span class="text-primary font-weight-bold">x</span> {{ $val->quanity }}</span>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            @else
+                                                                <label class="form-control-label">No medicines used.</label>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="my-4">
+
                                                     <div class="row pb-4">
                                                         @if($value->before_image != null)
                                                             <div class="col-md-6 text-center">
@@ -193,6 +218,9 @@
                                                             </div>
                                                         @endif
                                                     </div>
+
+                                                     <hr class="my-4">
+
                                                     <div class="row justify-content-center">
                                                         <div class="col-md-3">
                                                             <div class="form-group">

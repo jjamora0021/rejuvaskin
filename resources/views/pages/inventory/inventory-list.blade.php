@@ -30,10 +30,10 @@
                                     <a class="btn btn-sm btn-icon btn-primary" data-toggle="tooltip" data-placement="top" title="View Stocks History" href="#">
                                         <span class="btn-inner--icon"><i class="fas fa-eye"></i></span>
                                     </a>
-                                    <a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Update Medicine Stock" href="#">
+                                    <button class="btn btn-sm btn-icon btn-warning" onclick="inventoryFunctions.openUpdateStocksModal('{{ $val->medicine }}',{{ $val->id }});">
                                         <span class="btn-inner--icon"><i class="fas fa-edit"></i></span>
-                                    </a>
-                                    <button class="btn btn-sm btn-icon btn-danger">
+                                    </button>
+                                    <button class="btn btn-sm btn-icon btn-danger" onclick="inventoryFunctions.openDeleteModal({{ $val->id }});">
                                         <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
                                     </button>
                                 </td>
@@ -48,9 +48,13 @@
     </div>
 </div>
 
+@include('pages.inventory.modals.update-modal')
+@include('pages.inventory.modals.delete-modal')
+
 @endsection
 
 @section('page-js')
+    <script type="text/javascript" src="{{ asset('js/inventory.js') }}"></script>
     <script type="text/javascript">
         $('#dashboard-link a').addClass('active');
         $(document).ready(function() {

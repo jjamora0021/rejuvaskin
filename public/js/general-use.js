@@ -83,18 +83,16 @@ generalFunctions = {
                                                 <div class="input-group-prepend">\
                                                     <span class="input-group-text"><i class="fas fa-search"></i></span>\
                                                 </div>\
-                                               <select class="form-control selectpicker" data-live-search="true" id="medicine-input" data-style="btn-white" title="Select Medicine">\
+                                               <select class="form-control selectpicker" data-live-search="true" id="medicine-input" data-style="btn-white" title="Select Medicine" onchange="generalFunctions.selectMedicine();">\
                                                     '+meds_dropdown+'\
                                                 </select>\
-                                                <div class="input-group-append" id="button-addon4">\
-                                                    <button class="btn btn-primary" type="button" onclick="generalFunctions.selectMedicine();">Select</button>\
-                                                </div>\
                                             </div>\
                                         </div>\
                                     </div>\
                                 </div>\
-                                <div class="row justify-content-center">\
+                                <div class="row justify-content-center mb-3">\
                                     <div class="col-md-6">\
+                                        <input type="hidden" id="selected-meds-count" name="selected-meds-count" value="0">\
                                         <ul class="list-group" id="medicine-used-list">\
                                         </ul>\
                                     </div>\
@@ -155,25 +153,60 @@ generalFunctions = {
      */
     selectMedicine: function()
     {
+        var count = parseInt($('#selected-meds-count').val()) + 1;
+        $('#selected-meds-count').val(count);
         var med_selected = $('#medicine-input').val();
         var med_text = $.trim($('#medicine-input option:selected').text());
+        $('#medicine-input option:selected').prop('disabled',true); 
+        $('#medicine-input').val('').selectpicker('refresh');
 
         var med =   '<li class="list-group-item">\
                         <div class="row align-items-center">\
-                            <div class="col">\
+                            <div class="col" id="row-'+count+'">\
                                 <h4 class="mb-0">'+med_text+'</h4>\
-                                <span class="text-primary">x</span>\
-                                <small>1</small>\
+                                <span class="text-primary font-weight-bold">x</span>\
+                                <small class="text-primary font-weight-bold">1</small>\
+                                <input type="hidden" id="current_count" name="current_count-'+count+'" value="1">\
+                                <input type="hidden" id="current_med_selected_text" name="current_med_selected_text-'+count+'" value="'+ med_text + '">\
+                                <input type="hidden" id="current_med_selected" name="current_med_selected-'+count+'" value="'+ med_selected + '">\
                             </div>\
                             <div class="col-auto">\
-                                <button type="button" class="btn btn-sm btn-success"><i class="fas fa-plus"></i></button>\
-                                <button type="button" class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></button>\
+                                <button type="button" class="btn btn-sm btn-success" onclick="generalFunctions.addMedQuantity('+count+');"><i class="fas fa-plus"></i></button>\
+                                <button type="button" class="btn btn-sm btn-danger" onclick="generalFunctions.subtractMedQuantity('+count+','+med_selected+');"><i class="fas fa-minus"></i></button>\
                             </div>\
                         </div>\
                     </li>';
         $('#medicine-used-list').append(med);
-        console.log(med_selected);
-        console.log(med_text)
+    },
+
+    /**
+     * [addMedQuantity description]
+     * @param {[type]} row_num [description]
+     */
+    addMedQuantity: function(row_num)
+    {
+        var cur_cnt = parseInt($('#medicine-used-list #row-'+row_num+' #current_count').val()) + 1;
+        $('#medicine-used-list #row-'+row_num+' small').empty().append(cur_cnt);
+        $('#medicine-used-list #row-'+row_num+' #current_count').val(cur_cnt);
+    },
+
+    /**
+     * [subtractMedQuantity description]
+     * @param  {[type]} row_num [description]
+     * @return {[type]}         [description]
+     */
+    subtractMedQuantity: function(row_num, selected)
+    {
+        var cur_cnt = parseInt($('#medicine-used-list #row-'+row_num+' #current_count').val()) - 1;
+        if(cur_cnt != 0) {
+            $('#medicine-used-list #row-'+row_num+' small').empty().append(cur_cnt);
+            $('#medicine-used-list #row-'+row_num+' #current_count').val(cur_cnt);
+        }
+        else {
+            $('#medicine-used-list #row-'+row_num).parent().parent().remove();
+            $('#medicine-input option[value='+selected+']').prop('disabled',false);
+            $('#medicine-input').selectpicker('refresh');
+        }
     },
 
 	/**

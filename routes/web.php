@@ -38,3 +38,5 @@ Route::post('update-patient-information/{id}', 'PatientInformationController@upd
 
 // Inventory
 Route::get('inventory-list', 'InventoryController@index')->name('inventory-list');
+Route::get('fetch-all-medicine-info', 'InventoryController@fetchAllMedicine')->name('fetch-all-medicine-info');
+Route::get('update-inventory-list/{id}', 'InventoryController@updateStocks')->name('update-inventory-list');
