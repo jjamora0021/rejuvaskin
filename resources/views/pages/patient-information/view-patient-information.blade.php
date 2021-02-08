@@ -266,5 +266,5 @@
 @endsection
 
 @section('page-js')
-    <script src="{{ asset('assets/js/components/vendor/theme.min.js') }}"></script>
+    
 @endsection

@@ -121,7 +121,53 @@ inventoryFunctions = {
         var repop = "inventoryFunctions.repopulateInventoryListTable();";
         var buttons =   '<button type="button" class="btn btn-danger new-event--add" id="delete-btn" onclick="'+param+'">Delete</button>\
                         <button type="button" class="btn btn-link ml-auto" data-dismiss="modal" onclick="'+repop+'">Close</button>';
-        $('#delete-patient-modal .modal-footer').empty().append(buttons);
-        $('#delete-patient-modal').modal();
+        $('#delete-medicine-modal .modal-footer').empty().append(buttons);
+        $('#delete-medicine-modal').modal();
+    },
+
+    /**
+     * [deletePatientInfo description]
+     * @param  {[type]} patient_id [description]
+     * @return {[type]}            [description]
+     */
+    deleteMedicine: function(meds_id)
+    {
+        $.ajax({
+            url: window.location.origin + '/delete-medicine',
+            data: {
+                id : meds_id
+            },
+            success: function(response) {
+                if(response == 1) {
+                    $('#delete-medicine-modal .modal-body .alert-success').removeClass('d-none');
+                }
+                else {
+                    $('#delete-medicine-modal .modal-body .alert-danger').removeClass('d-none');
+                }
+            }
+        });
+    },  
+
+    /**
+     * [openAddModal description]
+     * @return {[type]} [description]
+     */
+    openAddModal: function()
+    {
+        $('#add-medicine-modal').modal();
+    },
+
+    /**
+     * [resetFields description]
+     * @return {[type]} [description]
+     */
+    resetFields: function()
+    {
+    	$('#add-medicine-modal input').val('');
+    	$('#add-medicine-modal #file').fileinput('reset');
+    	$('#add-medicine-modal #file').fileinput({
+            showUpload  : false,
+            theme       : "fas",
+        });
     },
 }

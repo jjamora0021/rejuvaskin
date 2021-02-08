@@ -61,6 +61,7 @@
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/select2/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/components/vendor/theme.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/bootstrap-select.min.js') }}"></script>
 
     <!-- Argon JS -->

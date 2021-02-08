@@ -4,8 +4,15 @@
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="col-lg-6 col-7 py-4">
-                <h6 class="h2 text-primary d-inline-block mb-0">Inventory</h6>
+            <div class="header-container align-middle d-flex">
+                <div class="col-lg-6 col-7 py-4">
+                    <h6 class="h2 text-primary d-inline-block mb-0">Inventory</h6>
+                </div>
+                <div class="col-md-6 py-4 text-right">
+                    <a href="javascript:void(0)" class="btn btn-sm btn-primary text-right" onclick="inventoryFunctions.openAddModal();">
+                        <i class="ni ni-fat-add"></i> Add Medicine
+                    </a>
+                </div>
             </div>
 
             <table class="table align-items-center table-striped" width="100%" id="inventory-table">
@@ -48,6 +55,7 @@
     </div>
 </div>
 
+@include('pages.inventory.modals.add-modal')
 @include('pages.inventory.modals.update-modal')
 @include('pages.inventory.modals.delete-modal')
 
@@ -59,6 +67,10 @@
         $('#dashboard-link a').addClass('active');
         $(document).ready(function() {
             dataTableFunctions.onLoad();
+        });
+        $("#file").fileinput({
+            showUpload  : false,
+            theme       : "fas",
         });
     </script>
 @endsection

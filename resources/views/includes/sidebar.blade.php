@@ -42,7 +42,9 @@
 						<div class="collapse show" id="navbar-patient-info">
 							<ul class="nav nav-sm flex-column">
 								<li class="nav-item">
-									<a id="patient-information" href="{{ url('patient-information') }}" class="nav-link"><i class="ni ni-bullet-list-67 text-danger"></i> Patient List</a>
+									<a id="patient-information" href="{{ url('patient-information') }}" class="nav-link">
+										<i class="ni ni-bullet-list-67 text-danger"></i> Patient List
+									</a>
 								</li>
 								<li class="nav-item">
 									<a id="add-patient-information" href="{{ url('add-patient-information') }}" class="nav-link"><i class="fas fa-user-plus text-danger"></i> Add Patient Information</a>
@@ -52,8 +54,7 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url('inventory-list') }}" id="inventory-list">
-							<i class="fas fa-file-prescription text-warning"></i>
-							<span class="nav-link-text">Inventory</span>
+							<i class="fas fa-prescription-bottle text-warning"></i> Inventory
 						</a>
 					</li>
 				</ul>

@@ -124,8 +124,10 @@ class InventoryController extends Controller
      * @param  \App\Models\Inventory  $inventory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Inventory $inventory)
+    public function deleteMedicine(Request $request)
     {
-        //
+        $delete = $this->InventoriesModel->deleteMedicine($request['id']);
+
+        return $delete;
     }
 }

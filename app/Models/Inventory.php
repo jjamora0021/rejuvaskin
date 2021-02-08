@@ -49,6 +49,8 @@ class Inventory extends Model
      */
     public function deleteMedicine($meds_id)
     {
-        
+        $delete = DB::table('inventories')->where('id',$meds_id)->delete();
+
+        return $delete;
     }
 }
