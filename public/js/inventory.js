@@ -170,4 +170,73 @@ inventoryFunctions = {
             theme       : "fas",
         });
     },
+
+    /**
+     * [addMedicineRow description]
+     */
+    addMedicineRow: function(ctr)
+    {
+    	$('#medicine-row-'+ctr+' #deduct-btn-1').attr('disabled',false);
+    	ctr++;
+    	$('#row-counter').val(ctr);
+    	var row = '<div class="row" id="medicine-row-'+ctr+'">\
+                        <div class="col-md-7">\
+                            <div class="form-group">\
+                                <label class="form-control-label">Medicine</label><small><i><span class="text-danger">*</span></i></small>\
+                                <input type="text" id="meds_name_'+ctr+'" class="form-control meds_name" name="meds_name['+ctr+']" value="" placeholder="Medicine Name" required>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-3">\
+                            <div class="form-group">\
+                                <label class="form-control-label">Quantity</label><small><i><span class="text-danger">*</span></i></small>\
+                                <input type="number" id="quantity_'+ctr+'" name="quantity['+ctr+']" class="form-control meds_qty" placeholder="0" min="0" required>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-2 py-4 mt-3 text-center">\
+                            <div class="form-group">\
+                                <button type="button" class="btn btn-sm btn-success new-event--add" id="add-btn-'+ctr+'" onclick="inventoryFunctions.addMedicineRow('+ctr+');"><i class="fas fa-plus"></i></button>\
+                                <button type="button" class="btn btn-sm btn-danger new-event--remove" id="deduct-btn-'+ctr+'" onclick="inventoryFunctions.deductMedicineRow('+ctr+');"><i class="fas fa-minus"></i></button>\
+                            </div>\
+                        </div>\
+                    </div>';
+
+        $('#row-medicine-container').append(row);
+    },
+
+    /**
+     * [deductMedicineRow description]
+     * @param  {[type]} ctr [description]
+     * @return {[type]}     [description]
+     */
+    deductMedicineRow: function(ctr)
+    {
+    	ctr--;
+    	$('#row-counter').val(ctr);
+    	if($('#row-counter').val() == 2) {
+    		$('#medicine-row-1 #deduct-btn-1').attr('disabled',true);
+    	}
+
+    	$('#medicine-row-'+ctr).remove();
+    },
+
+
+    addMedicine: function()
+    {
+    	$('#add-medicine-form').on('submit', function() {
+		    var frm = $(this);
+		    $.ajax({
+		        type: "POST",
+		        url: window.location.origin + '/add-medicine',
+		        data: frm.serialize(),//serialize correct form
+		        success: function(response) {
+		            console.log(response);
+		            $("#form-content").modal('hide');   
+		        },
+		        error: function(){
+		            alert("failure");
+		        }
+		    });//your ajax call here
+		    return false;
+		});
+    },
 }

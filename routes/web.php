@@ -41,3 +41,4 @@ Route::get('inventory-list', 'InventoryController@index')->name('inventory-list'
 Route::get('fetch-all-medicine-info', 'InventoryController@fetchAllMedicine')->name('fetch-all-medicine-info');
 Route::get('update-inventory-list/{id}', 'InventoryController@updateStocks')->name('update-inventory-list');
 Route::get('delete-medicine', 'InventoryController@deleteMedicine')->name('delete-medicine');
+Route::post('add-medicine', 'InventoryController@addMedicine')->name('add-medicine');

@@ -9,9 +9,8 @@
                     <h6 class="h2 text-primary d-inline-block mb-0">Inventory</h6>
                 </div>
                 <div class="col-md-6 py-4 text-right">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-primary text-right" onclick="inventoryFunctions.openAddModal();">
-                        <i class="ni ni-fat-add"></i> Add Medicine
-                    </a>
+                    <button type="button" class="btn btn-sm btn-primary"  onclick="inventoryFunctions.openAddModal();"><i class="ni ni-fat-add"></i> Add Medicine</button>
+                    {{-- <button type="button" class="btn btn-sm btn-primary" onclick="inventoryFunctions.openUploadModal();"><i class="fas fa-file-excel"></i> Upload Excel File</button> --}}
                 </div>
             </div>
 

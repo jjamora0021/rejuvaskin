@@ -70,9 +70,26 @@ class InventoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function addMedicine(Request $request)
     {
-        //
+        $data = [];
+        // $ctr = $request['row-counter'];
+        foreach ($request->all() as $key => $value) 
+        {
+            if($key == 'meds_name') 
+            {
+                foreach ($value as $indx => $val) {
+                    $data['medicine'] = $val;
+                }
+            }
+            if($key == 'quantity') 
+            {
+                foreach ($value as $indx => $val) {
+                    $data['stocks'] = (int)$val;
+                }
+            }
+        }
+        dd($data);
     }
 
     /**
