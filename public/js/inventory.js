@@ -80,9 +80,9 @@ inventoryFunctions = {
                             language: {
                                 paginate: {
                                     previous: '<i class="ni ni-bold-left"></i>', // or '>'
-                                    next: '<i class="ni ni-bold-right"></i>' // or '<' 
+                                    next: '<i class="ni ni-bold-right"></i>' // or '<'
                                 }
-                            }  
+                            }
                         });
 
         $.ajax({
@@ -146,7 +146,7 @@ inventoryFunctions = {
                 }
             }
         });
-    },  
+    },
 
     /**
      * [openAddModal description]
@@ -163,12 +163,22 @@ inventoryFunctions = {
      */
     resetFields: function()
     {
-    	$('#add-medicine-modal input').val('');
+    	$('#add-medicine-modal #row-medicine-container input').val('');
     	$('#add-medicine-modal #file').fileinput('reset');
     	$('#add-medicine-modal #file').fileinput({
             showUpload  : false,
             theme       : "fas",
         });
+
+        if($('#add-medicine-modal .modal-body .alert-success').hasClass('d-none') == false)
+        {
+            $('#add-medicine-modal .modal-body .alert-success').addClass('d-none');
+        }
+
+        if($('#add-medicine-modal .modal-body .alert-danger').hasClass('d-none') == false)
+        {
+            $('#add-medicine-modal .modal-body .alert-danger').addClass('d-none');
+        }
     },
 
     /**
@@ -220,23 +230,60 @@ inventoryFunctions = {
     },
 
 
+    /**
+     * [addMedicine description]
+     * @return {[type]}     [description]
+     */
     addMedicine: function()
     {
-    	$('#add-medicine-form').on('submit', function() {
+    	$('#add-medicine-form').off('submit').on('submit', function() {
 		    var frm = $(this);
 		    $.ajax({
 		        type: "POST",
 		        url: window.location.origin + '/add-medicine',
 		        data: frm.serialize(),//serialize correct form
 		        success: function(response) {
-		            console.log(response);
-		            $("#form-content").modal('hide');   
-		        },
-		        error: function(){
-		            alert("failure");
+		            if(response == 1) {
+                        $('#add-medicine-modal .modal-body .alert-success').removeClass('d-none');
+                        inventoryFunctions.repopulateInventoryListTable();
+                        inventoryFunctions.removeAllRows();
+                    }
+                    else {
+                        $('#add-medicine-modal .modal-body .alert-danger').removeClass('d-none');
+                    }
 		        }
-		    });//your ajax call here
+		    });
 		    return false;
 		});
+    },
+
+    /**
+     * [removeAllRows description]
+     * @return {[type]}     [description]
+     */
+    removeAllRows: function()
+    {
+    	var row = '<div class="row" id="medicine-row-1">\
+                        <div class="col-md-7">\
+                            <div class="form-group">\
+                                <label class="form-control-label">Medicine</label><small><i><span class="text-danger">*</span></i></small>\
+                                <input type="text" id="meds_name_1" class="form-control meds_name" name="meds_name[1]" value="" placeholder="Medicine Name" required>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-3">\
+                            <div class="form-group">\
+                                <label class="form-control-label">Quantity</label><small><i><span class="text-danger">*</span></i></small>\
+                                <input type="number" id="quantity_1" name="quantity[1]" class="form-control meds_qty" placeholder="0" min="0" required>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-2 py-4 mt-3 text-center">\
+                            <div class="form-group">\
+                                <button type="button" class="btn btn-sm btn-success new-event--add" id="add-btn-1" onclick="inventoryFunctions.addMedicineRow(1);"><i class="fas fa-plus"></i></button>\
+                                <button type="button" class="btn btn-sm btn-danger new-event--remove" id="deduct-btn-1" onclick="inventoryFunctions.deductMedicineRow(1);" disabled><i class="fas fa-minus"></i></button>\
+                            </div>\
+                        </div>\
+                    </div>';
+
+        $('#row-medicine-container').empty().append(row);
     },
 }

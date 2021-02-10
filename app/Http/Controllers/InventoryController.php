@@ -72,24 +72,40 @@ class InventoryController extends Controller
      */
     public function addMedicine(Request $request)
     {
-        $data = [];
+        $now = Carbon::now();
+        $meds = [];
+        $quantity = [];
         // $ctr = $request['row-counter'];
-        foreach ($request->all() as $key => $value) 
+        foreach ($request->all() as $key => $value)
         {
-            if($key == 'meds_name') 
+            if($key == 'meds_name')
             {
                 foreach ($value as $indx => $val) {
-                    $data['medicine'] = $val;
+                    $meds[] = $val;
                 }
             }
-            if($key == 'quantity') 
+            if($key == 'quantity')
             {
                 foreach ($value as $indx => $val) {
-                    $data['stocks'] = (int)$val;
+                    $quantity[] = (int)$val;
                 }
             }
         }
-        dd($data);
+
+        $row_count = count($meds);
+
+        $data = [];
+
+        for ($i = 0; $i < $row_count; $i++) {
+            $data[$i]['medicine'] = $meds[$i];
+            $data[$i]['stocks'] = $quantity[$i];
+            $data[$i]['created_at'] = $now;
+            $data[$i]['updated_at'] = $now;
+        }
+
+        $store = $this->InventoriesModel->addMedicine($data);
+
+        return $store;
     }
 
     /**

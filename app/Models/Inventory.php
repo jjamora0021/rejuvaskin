@@ -35,7 +35,7 @@ class Inventory extends Model
             $update =    DB::transaction(function () use ($meds_id, $data) {
                             DB::table('inventories')->where('id',$meds_id)->increment('stocks', $data['stocks_delivered']);
                             DB::table('inventories')->where('id',$meds_id)->update($data);
-                        }); 
+                        });
             return is_null($update) ? true : $update;
         } catch (Exception $e) {
             return false;
@@ -52,5 +52,17 @@ class Inventory extends Model
         $delete = DB::table('inventories')->where('id',$meds_id)->delete();
 
         return $delete;
+    }
+
+    /**
+     * [addMedicine description]
+     * @param  [type] $data    [description]
+     * @return [type]          [description]
+     */
+    public function addMedicine($data)
+    {
+        $store = DB::table('inventories')->insert($data);
+
+        return $store;
     }
 }
