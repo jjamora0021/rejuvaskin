@@ -68,7 +68,11 @@ inventoryFunctions = {
                                     "targets": [ 0 ],
                                     "visible": false,
                                     "searchable": false
-                                }
+                                },
+                                {
+                                    "className": "dt-center",
+                                    "targets": [ 2, 3, 4 ]
+                                },
                             ],
                             columns: [
                                 { data: "id" },
@@ -164,9 +168,8 @@ inventoryFunctions = {
     resetFields: function()
     {
     	$('#add-medicine-modal #row-medicine-container input').val('');
-    	$('#add-medicine-modal #file').fileinput('reset');
-    	$('#add-medicine-modal #file').fileinput({
-            showUpload  : false,
+    	$('#upload-medicine-modal .card #file').fileinput('reset');
+    	$('#upload-medicine-modal .card #file').fileinput({
             theme       : "fas",
         });
 
@@ -229,14 +232,13 @@ inventoryFunctions = {
     	$('#medicine-row-'+ctr).remove();
     },
 
-
     /**
      * [addMedicine description]
      * @return {[type]}     [description]
      */
     addMedicine: function()
     {
-    	$('#add-medicine-form').off('submit').on('submit', function() {
+    	$('#add-medicine-modal #add-medicine-form').off('submit').on('submit', function() {
 		    var frm = $(this);
 		    $.ajax({
 		        type: "POST",
@@ -250,6 +252,46 @@ inventoryFunctions = {
                     }
                     else {
                         $('#add-medicine-modal .modal-body .alert-danger').removeClass('d-none');
+                    }
+		        }
+		    });
+		    return false;
+		});
+    },
+
+    /**
+     * [uploadMedicine description]
+     * @return {[type]}     [description]
+     */
+    uploadMedicine: function()
+    {
+        $('#upload-medicine-modal #add-medicine-form').off('submit').on('submit', function() {
+		    var frm = new FormData($('#upload-medicine-modal #add-medicine-form')[0]);
+		    $.ajax({
+		        type: "POST",
+		        url: window.location.origin + '/upload-medicine-list',
+                dataType: 'json',
+                contentType: false, // Important
+                processData: false, // Important
+		        data: frm,//serialize correct form
+		        success: function(response) {
+		            if(response == 1) {
+                        $('#upload-medicine-modal .modal-body .alert-success').removeClass('d-none');
+                        inventoryFunctions.repopulateInventoryListTable();
+                        $('#upload-medicine-modal .card #file').fileinput('reset');
+                        $('#upload-medicine-modal .card #file').fileinput({
+                            showUpload  : false,
+                            theme       : "fas",
+                            // uploadUrl: '#',
+                            browseOnZoneClick: true,
+                            allowedPreviewTypes: false,
+                            maxFileSize: 15000,
+                            // uploadAsync: false,
+                            uploadAsync: true,
+                        });
+                    }
+                    else {
+                        $('#upload-medicine-modal .modal-body .alert-danger').removeClass('d-none');
                     }
 		        }
 		    });
@@ -285,5 +327,14 @@ inventoryFunctions = {
                     </div>';
 
         $('#row-medicine-container').empty().append(row);
+    },
+
+    /**
+     * [openUploadModal description]
+     * @return {[type]}     [description]
+     */
+    openUploadModal: function()
+    {
+        $('#upload-medicine-modal').modal();
     },
 }

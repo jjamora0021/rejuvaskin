@@ -83,7 +83,8 @@ generalFunctions = {
                                                 <div class="input-group-prepend">\
                                                     <span class="input-group-text"><i class="fas fa-search"></i></span>\
                                                 </div>\
-                                               <select class="form-control selectpicker" data-live-search="true" id="medicine-input" data-style="btn-white" title="Select Medicine" onchange="generalFunctions.selectMedicine();">\
+                                               <select class="form-control selectpicker" data-live-search-placeholder="Search here.." data-actions-box="true" data-live-search="true" id="medicine-input" data-style="btn-white" title="Select Medicine" onchange="generalFunctions.selectMedicine();">\
+                                               <option value="" disabled selected>Choose Medicines</option>\
                                                     '+meds_dropdown+'\
                                                 </select>\
                                             </div>\
@@ -144,6 +145,9 @@ generalFunctions = {
             $('#visit_count_header').empty().append(str);
         });
 
+        $('#medicine-input').selectpicker({
+            size: '5'
+        });
         $('#medicine-input').selectpicker('refresh');
 	},
 
@@ -157,7 +161,7 @@ generalFunctions = {
         $('#selected-meds-count').val(count);
         var med_selected = $('#medicine-input').val();
         var med_text = $.trim($('#medicine-input option:selected').text());
-        $('#medicine-input option:selected').prop('disabled',true); 
+        $('#medicine-input option:selected').prop('disabled',true);
         $('#medicine-input').val('').selectpicker('refresh');
 
         var med =   '<li class="list-group-item">\
@@ -256,7 +260,7 @@ generalFunctions = {
                 }
             }
         });
-    },  
+    },
 
     /**
      * [repopulatePatientListTable description]
@@ -293,9 +297,9 @@ generalFunctions = {
                             language: {
                                 paginate: {
                                     previous: '<i class="ni ni-bold-left"></i>', // or '>'
-                                    next: '<i class="ni ni-bold-right"></i>' // or '<' 
+                                    next: '<i class="ni ni-bold-right"></i>' // or '<'
                                 }
-                            }  
+                            }
                         });
 
         $.ajax({

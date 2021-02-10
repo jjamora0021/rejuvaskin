@@ -8,6 +8,10 @@ use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use App\Imports\InventoryImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+
 use Carbon\Carbon;
 
 class InventoryController extends Controller
@@ -106,6 +110,19 @@ class InventoryController extends Controller
         $store = $this->InventoriesModel->addMedicine($data);
 
         return $store;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function uploadMedicine(Request $request)
+    {
+        $upload = Excel::import(new InventoryImport, $request->file('file'));
+
+        return true;
     }
 
     /**

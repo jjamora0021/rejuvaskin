@@ -13,6 +13,15 @@ class Inventory extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'medicine', 'stocks', 'created_at', 'updated_at',
+    ];
+
+    /**
      * [fetchAll description]
      * @return [type] [description]
      */

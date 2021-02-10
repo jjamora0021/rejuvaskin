@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@section('page-css')
+    <style>
+        .dt-center {
+            text-align: center !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
@@ -10,7 +18,7 @@
                 </div>
                 <div class="col-md-6 py-4 text-right">
                     <button type="button" class="btn btn-sm btn-primary"  onclick="inventoryFunctions.openAddModal();"><i class="ni ni-fat-add"></i> Add Medicine</button>
-                    {{-- <button type="button" class="btn btn-sm btn-primary" onclick="inventoryFunctions.openUploadModal();"><i class="fas fa-file-excel"></i> Upload Excel File</button> --}}
+                    <button type="button" class="btn btn-sm btn-primary" onclick="inventoryFunctions.openUploadModal();"><i class="fas fa-file-excel"></i> Upload Excel File</button>
                 </div>
             </div>
 
@@ -21,7 +29,7 @@
                         <th class="font-weight-bold">Medicine</th>
                         <th class="font-weight-bold text-center">Current Stock</th>
                         <th class="font-weight-bold text-center">Last Updated</th>
-                        <th></th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
                 @if(!empty($meds))
@@ -45,7 +53,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>    
+                    </tbody>
                 @else
                     <tbody></tbody>
                 @endif
@@ -55,6 +63,7 @@
 </div>
 
 @include('pages.inventory.modals.add-modal')
+@include('pages.inventory.modals.upload-excel-modal')
 @include('pages.inventory.modals.update-modal')
 @include('pages.inventory.modals.delete-modal')
 
@@ -70,6 +79,12 @@
         $("#file").fileinput({
             showUpload  : false,
             theme       : "fas",
+            // uploadUrl: '#',
+            browseOnZoneClick: true,
+            allowedPreviewTypes: false,
+            maxFileSize: 15000,
+            // uploadAsync: false,
+            uploadAsync: true,
         });
     </script>
 @endsection
