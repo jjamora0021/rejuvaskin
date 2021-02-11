@@ -122,7 +122,7 @@ class InventoryController extends Controller
     {
         $upload = Excel::import(new InventoryImport, $request->file('file'));
 
-        return true;
+        return response()->json($upload);
     }
 
     /**

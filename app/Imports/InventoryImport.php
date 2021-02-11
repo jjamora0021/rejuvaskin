@@ -16,11 +16,19 @@ class InventoryImport implements ToModel
     */
     public function model(array $row)
     {
-        return new Inventory([
-            'medicine'      => $row[0],
-            'stocks'        => (int)$row[1],
-            'created_at'    => Carbon::now(),
-            'updated_at'    => Carbon::now()
-        ]);
+        $data = Inventory::firstWhere('medicine',$row[0]);
+        if(empty($data))
+        {
+            return new Inventory([
+                'medicine'      => $row[0],
+                'stocks'        => (int)$row[1],
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            ]);
+        }
+        else
+        {
+            return null;
+        }
     }
 }

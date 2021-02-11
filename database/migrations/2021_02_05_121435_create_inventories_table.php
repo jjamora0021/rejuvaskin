@@ -15,7 +15,7 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->string('medicine');
+            $table->string('medicine')->unique();
             $table->integer('stocks');
             $table->boolean('deleted_at')->default(false);
             $table->integer('stocks_delivered')->nullable();

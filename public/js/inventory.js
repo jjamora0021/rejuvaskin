@@ -165,7 +165,7 @@ inventoryFunctions = {
      * [resetFields description]
      * @return {[type]} [description]
      */
-    resetFields: function()
+    resetFields: function(modal)
     {
     	$('#add-medicine-modal #row-medicine-container input').val('');
     	$('#upload-medicine-modal .card #file').fileinput('reset');
@@ -173,14 +173,16 @@ inventoryFunctions = {
             theme       : "fas",
         });
 
-        if($('#add-medicine-modal .modal-body .alert-success').hasClass('d-none') == false)
+        if($('#add-medicine-modal .modal-body .alert-success').hasClass('d-none') == false || $('#upload-medicine-modal .modal-body .alert-success').hasClass('d-none') == false)
         {
             $('#add-medicine-modal .modal-body .alert-success').addClass('d-none');
+            $('#upload-medicine-modal .modal-body .alert-success').addClass('d-none');
         }
 
-        if($('#add-medicine-modal .modal-body .alert-danger').hasClass('d-none') == false)
+        if($('#add-medicine-modal .modal-body .alert-danger').hasClass('d-none') == false || $('#upload-medicine-modal .modal-body .alert-danger').hasClass('d-none') == false)
         {
             $('#add-medicine-modal .modal-body .alert-danger').addClass('d-none');
+            $('#upload-medicine-modal .modal-body .alert-danger').addClass('d-none');
         }
     },
 
@@ -275,6 +277,7 @@ inventoryFunctions = {
                 processData: false, // Important
 		        data: frm,//serialize correct form
 		        success: function(response) {
+                    console.log(response)
 		            if(response == 1) {
                         $('#upload-medicine-modal .modal-body .alert-success').removeClass('d-none');
                         inventoryFunctions.repopulateInventoryListTable();

@@ -14,7 +14,7 @@
                     <strong>Medicine(s) successfully added.</strong>
                 </div>
                 <div class="alert alert-danger d-none" role="alert">
-                    <strong>Medicine(s) failed to be added.</strong>
+                    <strong>Please double check the Medicines on your excel file. One or more medicines already exist in the system.</strong>
                 </div>
                 <form action="{{ route('upload-medicine-list') }}" method="POST" id="add-medicine-form" enctype="multipart/form-data">
                     @csrf
@@ -23,7 +23,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-control-label" for="before_image">Upload an Excel File</label>
-                                    <input id="file" name="file" type="file" class="file" data-browse-on-zone-click="true" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    <input id="file" name="file" type="file" class="file" data-browse-on-zone-click="true" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
                                 </div>
                             </div>
                         </div>
