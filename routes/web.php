@@ -21,6 +21,9 @@ Route::get('logout', 'Auth\LoginController@logout');
 
 // Dashboard
 Route::get('dashboard', 'HomeController@index')->name('dashboard');
+Route::get('fetch-all-schedules', 'HomeController@fetchAllSchedules')->name('fetch-all-schedules');
+Route::post('create-schedule', 'HomeController@createSchedule')->name('create-schedule');
+Route::put('update-schedule', 'HomeController@updateSchedule')->name('update-schedule');
 
 // Calendar
 Route::get('calendar', 'HomeController@calendar')->name('calendar');

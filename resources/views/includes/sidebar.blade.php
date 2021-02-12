@@ -23,23 +23,23 @@
 				<!-- Nav items -->
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<a class="nav-link" href="{{ url('dashboard') }}" id="dashboard-link">
+						<a class="nav-link" href="{{ url('dashboard') }}" id="dashboard">
 							<i class="ni ni-tv-2 text-primary"></i>
 							<span class="nav-link-text">Dashboard</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ url('calendar') }}" id="calendar-link">
+						<a class="nav-link" href="{{ url('calendar') }}" id="calendar">
 							<i class="ni ni-calendar-grid-58 text-success"></i>
 							<span class="nav-link-text">Calendar</span>
 						</a>
 					</li>
-					<li class="nav-item show">
-						<a class="nav-link" href="#navbar-patient-info" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-patient-info">
+					<li class="nav-item show" id="patient-dropdown">
+						<a class="nav-link collapsed" href="#navbar-patient-info" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-patient-info">
 							<i class="ni ni-single-02 text-danger"></i>
 							<span class="nav-link-text">Patients</span>
 						</a>
-						<div class="collapse show" id="navbar-patient-info">
+						<div class="collapse" id="navbar-patient-info">
 							<ul class="nav nav-sm flex-column">
 								<li class="nav-item">
 									<a id="patient-information" href="{{ url('patient-information') }}" class="nav-link">

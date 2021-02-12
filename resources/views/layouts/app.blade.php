@@ -25,11 +25,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert2/dist/sweetalert2.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/dist/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/fileinput.min.css') }}">
-    <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/dataTables.bootstrap4.min.css') }}" type="text/css">
+
+    <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/argon.css') }}" type="text/css">
 
     @yield('page-css')
@@ -60,7 +60,6 @@
     <script src="{{ asset('assets/js/components/vendor/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/select2/dist/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/theme.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/bootstrap-select.min.js') }}"></script>
 

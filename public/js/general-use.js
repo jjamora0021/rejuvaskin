@@ -13,6 +13,10 @@ generalFunctions = {
 		var loc = window.location.pathname;
 		var link_selector = loc.split("/")[1];
 		$('#'+link_selector).addClass('active');
+
+        if(link_selector == 'patient-information' || link_selector == 'add-patient-information') {
+            $('#patient-dropdown a').trigger('click');
+        }
 	},
 
     /**
