@@ -37,7 +37,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.dashboard.dashboard');
+        $scheds = $this->fetchAllSchedules();
+        $month = date('m');
+
+        return view('pages.dashboard.dashboard', compact('scheds','month'));
     }
 
     /**
@@ -74,8 +77,8 @@ class HomeController extends Controller
     {
         $data = [
             'patient_id' => $request['patient'],
-            'date' => $request['date_start'],
-            'time' => $request['time'],
+            'date' => Carbon::parse($request['date_start'])->format('Y-m-d'),
+            'time' => Carbon::parse($request['time'])->format('H:i:s'),
             'procedure' => $request['procedure'],
             'description' => $request['description'],
             'status' => 'to_do',
@@ -96,5 +99,88 @@ class HomeController extends Controller
         {
             return false;
         }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function updateSchedule(Request $request)
+    {
+        $status = '';
+        switch ($request['event-status']) {
+            case 'bg-success':
+                $status = 'done';
+                break;
+            case 'bg-danger':
+                $status = 'cancelled';
+                break;
+            default:
+                $status = 'to_do';
+                break;
+        }
+
+        $schedule_id = $request['id'];
+
+        $data = [
+            'patient_id' => $request['patient'],
+            'date' => $request['date'],
+            'time' => $request['time'],
+            'procedure' => $request['procedure'],
+            'description' => $request['description'],
+            'status' => $status,
+            'updated_at' => Carbon::now()
+        ];
+
+        $update = $this->SchedulesModel->updateSchedule($data, $schedule_id);
+
+        if($update)
+        {
+            $scheds = json_encode($this->fetchAllSchedules());
+
+            return response()->json($scheds);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function fetchAllSchedulesPerMonth(Request $request)
+    {
+        $month = $request['month'];
+        $scheds = $this->SchedulesModel->fetchAllSchedules();
+
+        $data = [];
+        foreach ($scheds as $key => $value) {
+            if(explode('-',$value->date)[1] == $month)
+            {
+                $value->patient = $value->first_name . ' ' . $value->last_name;
+                switch ($value->status) {
+                    case 'to_do':
+                        $value->status = 'TO DO';
+                        break;
+                    case 'done':
+                        $value->status = 'DONE';
+                        break;
+                    default:
+                        $value->status = 'CANCELLED';
+                        break;
+                }
+                $value->date = Carbon::parse($value->date)->format('F d, Y');
+                $value->time = Carbon::parse($value->time)->format('h:i A');
+                $data[] = $value;
+            }
+        }
+
+        return $data;
     }
 }

@@ -29,12 +29,24 @@ calendarFunctions = {
 
                 var events = [];
                 $.each(data, function(index, value) {
+                    var bg_class = '';
+                    switch(value.status) {
+                        case 'done':
+                            bg_class = 'bg-success';
+                            break;
+                        case 'cancelled':
+                            bg_class = 'bg-danger';
+                            break;
+                        default:
+                            bg_class = 'bg-primary';
+                    }
+
                     var obj = {
                         id: value.schedule_id,
-                        title: value.first_name + ' ' + value.last_name + ' - ' + value.procedure,
+                        title: value.procedure + ' - ' + value.first_name + ' ' + value.last_name,
                         start: value.date + 'T' + value.time,
                         allDay: false,
-                        className: 'bg-primary',
+                        className: bg_class,
                         description: value.description
                     }
                     events.push(obj);
@@ -99,6 +111,27 @@ calendarFunctions = {
                         $('.edit-event--id').val(event.id);
                         $('.edit-event--title').val(event.title);
                         $('.edit-event--description').val(event.description);
+
+                        $.each(data, function(index, value) {
+                            if(value.schedule_id == event.id) {
+                                $('#edit-event #event').val(event.title);
+                                $('#edit-event #patient').val(value.patient_id).selectpicker('refresh');
+                                $('#edit-event #time').val(value.time).selectpicker('refresh');
+                                $('#edit-event #date').val(value.date);
+                                $('#edit-event #procedure').val(value.procedure);
+                                $('#edit-event #description').val(value.description);
+                                switch(value.status) {
+                                    case 'done':
+                                        $('#edit-event #bg-success').trigger('click');
+                                        break;
+                                    case 'cancelled':
+                                        $('#edit-event #bg-danger').trigger('click');
+                                        break;
+                                    default:
+                                        $('#edit-event #bg-default').trigger('click');
+                                }
+                            }
+                        });
                     },
 
                 };
@@ -251,17 +284,18 @@ calendarFunctions = {
 		        type: "POST",
 		        url: window.location.origin + '/create-schedule',
 		        data: frm.serialize(),//serialize correct form
-		    }).done(function(response) {
-                if(response != false) {
-                    $('#new-event .modal-body .alert-success').removeClass('d-none');
-                    $('#schedules').val(response)
-                    $('#calendar-container #calendar').fullCalendar('destroy');
-                    calendarFunctions.initiateCalendar();
+                success: function(response) {
+                    if(response != false) {
+                        $('#new-event .modal-body .alert-success').removeClass('d-none');
+                        $('#schedules').val(response)
+                        $('#calendar-container #calendar').fullCalendar('destroy');
+                        calendarFunctions.initiateCalendar();
+                    }
+                    else {
+                        $('#new-event .modal-body .alert-danger').removeClass('d-none');
+                    }
                 }
-                else {
-                    $('#new-event .modal-body .alert-danger').removeClass('d-none');
-                }
-            });
+		    });
 		    return false;
 		});
     },
@@ -275,17 +309,58 @@ calendarFunctions = {
      */
     resetFields: function(modal)
     {
-        $('#'+modal+' #event').val('');
-        $('#'+modal+' #patient').val('').selectpicker('refresh');
-        $('#'+modal+' #time').val('').selectpicker('refresh');
-        $('#'+modal+' #procedure').val('');
-        $('#'+modal+' #description').val('');
+        if(modal != 'edit-event') {
+            if($('#'+modal+' .modal-body .alert-success').hasClass('d-none') == false) {
+                $('#'+modal+' .modal-body .alert-success').addClass('d-none');
+            }
+            if($('#'+modal+' .modal-body .alert-danger').hasClass('d-none') == false) {
+                $('#'+modal+' .modal-body .alert-danger').addClass('d-none');
+            }
+        }
+        else {
+            $('#'+modal+' #event').val('');
+            $('#'+modal+' #patient').val('').selectpicker('refresh');
+            $('#'+modal+' #time').val('').selectpicker('refresh');
+            $('#'+modal+' #procedure').val('');
+            $('#'+modal+' #description').val('');
 
-        if($('#'+modal+' .modal-body .alert-success').hasClass('d-none') == false) {
-            $('#'+modal+' .modal-body .alert-success').addClass('d-none');
+            if($('#'+modal+' .modal-body .alert-success').hasClass('d-none') == false) {
+                $('#'+modal+' .modal-body .alert-success').addClass('d-none');
+            }
+            if($('#'+modal+' .modal-body .alert-danger').hasClass('d-none') == false) {
+                $('#'+modal+' .modal-body .alert-danger').addClass('d-none');
+            }
         }
-        if($('#'+modal+' .modal-body .alert-danger').hasClass('d-none') == false) {
-            $('#'+modal+' .modal-body .alert-danger').addClass('d-none');
-        }
+
+        window.location.reload();
     },
+
+    /**
+     * [updateSchedule description]
+     *
+     * @return  {[type]}  [return description]
+     */
+    updateSchedule: function()
+    {
+        $('#edit-event #update-schedule-modal-form').off('submit').on('submit', function() {
+		    var frm = $(this);
+		    $.ajax({
+		        type: "PUT",
+		        url: window.location.origin + '/update-schedule',
+		        data: frm.serialize(),//serialize correct form
+                success: function(response) {
+                    if(response != false) {
+                        $('#edit-event .modal-body .alert-success').removeClass('d-none');
+                        $('#schedules').val(response)
+                        $('#calendar-container #calendar').fullCalendar('destroy');
+                        calendarFunctions.initiateCalendar();
+                    }
+                    else {
+                        $('#edit-event .modal-body .alert-danger').removeClass('d-none');
+                    }
+                }
+		    });
+		    return false;
+		});
+    }
 }

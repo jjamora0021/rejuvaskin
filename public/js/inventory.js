@@ -108,7 +108,7 @@ inventoryFunctions = {
                     el['action'] = action_btn;
                 });
                 table.rows.add(response).draw();
-
+                $('[data-toggle="tooltip"]').tooltip()
                 $('#update-stocks-modal .modal-body .alert-success, #delete-patient-modal .modal-body .alert-danger').addClass('d-none');
             }
         });

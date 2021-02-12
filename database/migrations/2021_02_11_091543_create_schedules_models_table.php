@@ -17,7 +17,7 @@ class CreateSchedulesModelsTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->integer('patient_id');
-            $table->string('date');
+            $table->date('date');
             $table->string('time');
             $table->string('procedure');
             $table->longText('description');

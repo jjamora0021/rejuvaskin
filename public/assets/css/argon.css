@@ -26858,6 +26858,11 @@ table.dataTable tbody > tr.selected
     color: #fff;
 }
 
+.fc-event-container {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
 .fc-view,
 .fc-view > table
 {

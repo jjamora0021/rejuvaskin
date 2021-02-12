@@ -20,8 +20,8 @@ class SchedulesTableSeeder extends Seeder
         $schedules = [
         	[
 	            'patient_id' => 1,
-                'date' => '2021-02-10',
-                'time' => '14:30:00',
+                'date' => Carbon::parse('2021-02-10')->format('Y-m-d'),
+                'time' => Carbon::parse('14:30:00')->format('H:i:s'),
 	            'procedure' => 'Facial',
                 'description' => 'Facial on patient',
                 'deleted_at' => false,
@@ -30,8 +30,8 @@ class SchedulesTableSeeder extends Seeder
         	],
             [
                 'patient_id' => 1,
-                'date' => '2021-02-10',
-                'time' => '16:30:00',
+                'date' => Carbon::parse('2021-02-10')->format('Y-m-d'),
+                'time' => Carbon::parse('16:30:00')->format('H:i:s'),
 	            'procedure' => 'Botux',
                 'description' => 'Botux procedure on patient',
                 'deleted_at' => false,

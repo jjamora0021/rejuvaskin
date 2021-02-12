@@ -61,8 +61,8 @@
                                 <form class="new-event--form" method="POST" action="{{ route('create-schedule') }}" id="create-schedule-modal-form">
                                     @csrf
                                     <div class="form-group">
-                                        <label class="form-control-label">Event Title</label><small><i><span class="text-danger">*</span></i></small>
-                                        <input type="text" name="event" id="event" class="form-control form-control-alternative new-event--title" placeholder="Event Title">
+                                        <label class="form-control-label">Schedule Title</label><small><i><span class="text-danger">*</span></i></small>
+                                        <input type="text" name="event" id="event" class="form-control form-control-alternative new-event--title" placeholder="Schedule Title">
                                     </div>
                                     <div class="form-group row ">
                                         <div class="col-md-6">
@@ -77,14 +77,6 @@
                                                     <option value="" disabled selected>No Patients Records</option>
                                                 @endif
                                             </select>
-                                            {{-- <label class="form-control-label d-block mb-3">Status color</label>
-                                            <div class="btn-group btn-group-toggle btn-group-colors event-tag" data-toggle="buttons">
-                                                <div class="btn-group btn-group-toggle btn-group-colors event-tag mb-0" data-toggle="buttons">
-                                                    <label class="btn bg-primary active"><input type="radio" name="event-tag" value="bg-default" autocomplete="off" checked></label>
-                                                    <label class="btn bg-success"><input type="radio" name="event-tag" value="bg-success" autocomplete="off"></label>
-                                                    <label class="btn bg-danger"><input type="radio" name="event-tag" value="bg-danger" autocomplete="off"></label>
-                                                </div>
-                                            </div> --}}
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-control-label" for="time">Time of Procedure</label><small><i><span class="text-danger">*</span></i></small>
@@ -141,31 +133,82 @@
                         <div class="modal-content">
                             <!-- Modal body -->
                             <div class="modal-body">
+                                <div class="alert alert-success d-none" role="alert">
+                                    <strong>Schedule successfully updated.</strong>
+                                </div>
+                                <div class="alert alert-danger d-none" role="alert">
+                                    <strong>Schedule failed to be updated.</strong>
+                                </div>
+
                                 <form class="edit-event--form" method="PUT" action="{{ route('update-schedule') }}" id="update-schedule-modal-form">
+                                    @csrf
                                     <div class="form-group">
-                                        <label class="form-control-label">Event title</label>
-                                        <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Event Title">
+                                        <label class="form-control-label">Schedule Title</label><small><i><span class="text-danger">*</span></i></small>
+                                        <input type="text" name="event" id="event" class="form-control form-control-alternative new-event--title" placeholder="Schedule Title">
+                                    </div>
+                                    <div class="form-group row ">
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="patient">Patient</label><small><i><span class="text-danger">*</span></i></small>
+                                            <select class="form-control selectpicker" data-live-search-placeholder="Search here.." data-actions-box="true" data-live-search="true" name="patient" id="patient" data-style="btn-white" title="Select Patient" required>
+                                                @if(!empty($patients))
+                                                    <option value="" disabled selected>Choose Patient</option>
+                                                    @foreach($patients as $key => $value)
+                                                        <option value="{{ $value->id }}">{{ $value->first_name . ' ' . $value->last_name }}</option>
+                                                    @endforeach
+                                                @else
+                                                    <option value="" disabled selected>No Patients Records</option>
+                                                @endif
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-control-label" for="time">Time of Procedure</label><small><i><span class="text-danger">*</span></i></small>
+                                            <select class="form-control selectpicker" data-actions-box="true" name="time" id="time" data-style="btn-white" title="Select Time" required>
+                                                <option value="" disabled selected>Choose Time</option>
+                                                <option value="08:00:00">8:00 AM</option>
+                                                <option value="08:30:00">8:30 AM</option>
+                                                <option value="09:00:00">9:00 AM</option>
+                                                <option value="09:30:00">9:30 AM</option>
+                                                <option value="10:00:00">10:00 AM</option>
+                                                <option value="10:30:00">10:30 AM</option>
+                                                <option value="11:00:00">11:00 AM</option>
+                                                <option value="11:30:00">11:30 AM</option>
+                                                <option value="12:00:00">12:00 PM</option>
+                                                <option value="12:30:00">12:30 PM</option>
+                                                <option value="13:00:00">01:00 PM</option>
+                                                <option value="13:30:00">01:30 PM</option>
+                                                <option value="14:00:00">02:00 PM</option>
+                                                <option value="14:30:00">02:30 PM</option>
+                                                <option value="15:00:00">03:00 PM</option>
+                                                <option value="15:30:00">03:30 PM</option>
+                                                <option value="16:00:00">04:00 PM</option>
+                                                <option value="16:30:00">04:30 PM</option>
+                                                <option value="17:00:00">05:00 PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label">Procedure</label><small><i><span class="text-danger">*</span></i></small>
+                                        <input type="text" name="procedure" id="procedure" class="form-control form-control-alternative new-event--title" placeholder="Procedure">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label">Description</label><small><i><span class="text-danger">*</span></i></small>
+                                        <textarea class="form-control" name="description" id="description" rows="3" placeholder="Short Description"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-control-label d-block mb-3">Status color</label>
                                         <div class="btn-group btn-group-toggle btn-group-colors event-tag mb-0" data-toggle="buttons">
-                                            <label class="btn bg-primary active"><input type="radio" name="event-tag" value="bg-default" autocomplete="off" checked></label>
-                                            <label class="btn bg-success"><input type="radio" name="event-tag" value="bg-success" autocomplete="off"></label>
-                                            <label class="btn bg-danger"><input type="radio" name="event-tag" value="bg-danger" autocomplete="off"></label>
+                                            <label class="btn bg-primary"><input type="radio" id="bg-default" name="event-status" value="bg-default" autocomplete="off"></label>
+                                            <label class="btn bg-success"><input type="radio" id="bg-success" name="event-status" value="bg-success" autocomplete="off"></label>
+                                            <label class="btn bg-danger"><input type="radio" id="bg-danger" name="event-status" value="bg-danger" autocomplete="off"></label>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="form-control-label">Description</label>
-                                        <textarea rows="3" class="form-control form-control-alternative edit-event--description textarea-autosize" placeholder="Event Desctiption"></textarea>
-                                        <i class="form-group--bar"></i>
-                                    </div>
-                                    <input type="hidden" class="edit-event--id">
+                                    <input type="hidden" name="id" class="edit-event--id">
+                                    <input type="hidden" name="date" id="date">
                             </div>
                             <!-- Modal footer -->
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" data-calendar="update">Update</button>
-                                <button type="button" class="btn btn-danger" data-calendar="delete" onclick="calendarFunctions.deleteSchedule();">Delete</button>
-                                <button type="button" class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary edit-event--add" onclick="calendarFunctions.updateSchedule();">Update</button>
+                                <button type="button" class="btn btn-link ml-auto" data-dismiss="modal" onclick="calendarFunctions.resetFields('edit-event')">Close</button>
                             </div>
                             </form>
                         </div>
