@@ -23,6 +23,8 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('dashboard', 'HomeController@index')->name('dashboard');
 Route::get('fetch-all-schedules', 'HomeController@fetchAllSchedules')->name('fetch-all-schedules');
 Route::get('fetch-all-schedule-per-month', 'HomeController@fetchAllSchedulesPerMonth')->name('fetch-all-schedule-per-month');
+Route::get('fetch-all-schedule-today', 'HomeController@fetchAllSchedulesToday')->name('fetch-all-schedule-today');
+Route::get('delete-schedule', 'HomeController@deleteSchedule')->name('delete-schedule');
 Route::post('create-schedule', 'HomeController@createSchedule')->name('create-schedule');
 Route::put('update-schedule', 'HomeController@updateSchedule')->name('update-schedule');
 

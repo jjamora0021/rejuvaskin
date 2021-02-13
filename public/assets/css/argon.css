@@ -29645,3 +29645,10 @@ html:not([dir='rtl']) .noUi-horizontal .noUi-handle
 {
     max-width: 200px;
 }
+
+tbody .fc-sun,
+tbody .fc-sat,
+tbody .fc-sat.fc-today,
+tbody .fc-sun.fc-today {
+    background: #2125290a;
+}

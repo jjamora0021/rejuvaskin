@@ -39,8 +39,9 @@ class HomeController extends Controller
     {
         $scheds = $this->fetchAllSchedules();
         $month = date('m');
+        $today = Carbon::now()->format('Y-m-d');
 
-        return view('pages.dashboard.dashboard', compact('scheds','month'));
+        return view('pages.dashboard.dashboard', compact('scheds','month','today'));
     }
 
     /**
@@ -182,5 +183,57 @@ class HomeController extends Controller
         }
 
         return $data;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function fetchAllSchedulesToday(Request $request)
+    {
+        $today = $request['date'];
+
+        $scheds = $this->SchedulesModel->fetchAllSchedules();
+
+        $data = [];
+        foreach ($scheds as $key => $value) {
+            if($value->date == $today)
+            {
+                $value->patient = $value->first_name . ' ' . $value->last_name;
+                switch ($value->status) {
+                    case 'to_do':
+                        $value->status = 'TO DO';
+                        break;
+                    case 'done':
+                        $value->status = 'DONE';
+                        break;
+                    default:
+                        $value->status = 'CANCELLED';
+                        break;
+                }
+                $value->date = Carbon::parse($value->date)->format('F d, Y');
+                $value->time = Carbon::parse($value->time)->format('h:i A');
+                $data[] = $value;
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function deleteSchedule(Request $request)
+    {
+        $id = $request['id'];
+
+        $delete = $this->SchedulesModel->deleteSchedule($id);
+
+        return $delete;
     }
 }

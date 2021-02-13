@@ -70,26 +70,28 @@ calendarFunctions = {
                     eventLimit: false,
 
                     dayClick: function(date) {
-                        var isoDate = moment(date).toISOString();
-                        $('#new-event').modal('show');
-                        $('.new-event--title').val('');
-                        $('.new-event--start').val(isoDate);
-                        $('.new-event--end').val(isoDate);
+                        if($(this).hasClass('fc-sun') == false && $(this).hasClass('fc-sat') == false) {
+                            var isoDate = moment(date).toISOString();
+                            $('#new-event').modal('show');
+                            $('.new-event--title').val('');
+                            $('.new-event--start').val(isoDate);
+                            $('.new-event--end').val(isoDate);
 
-                        $.each(events, function(index, value) {
-                            var d = value.start;
-                            var date = d.split("T")[0];
-                            var time = d.split("T")[1];
-                            if(isoDate == date) {
-                                var time_selection = $('#new-event #create-schedule-modal-form #time option');
-                                $.each(time_selection, function(e, v) {
-                                    if(v.value == time) {
-                                        v.setAttribute('disabled', true);
-                                        $('#new-event #create-schedule-modal-form #time').selectpicker('refresh');
-                                    }
-                                });
-                            }
-                        });
+                            $.each(events, function(index, value) {
+                                var d = value.start;
+                                var date = d.split("T")[0];
+                                var time = d.split("T")[1];
+                                if(isoDate == date) {
+                                    var time_selection = $('#new-event #create-schedule-modal-form #time option');
+                                    $.each(time_selection, function(e, v) {
+                                        if(v.value == time) {
+                                            v.setAttribute('disabled', true);
+                                            $('#new-event #create-schedule-modal-form #time').selectpicker('refresh');
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     },
 
                     viewRender: function(view) {

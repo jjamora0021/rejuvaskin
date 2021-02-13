@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('page-css')
-    
+
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <table class="table align-items-center table-striped" width="100%" id="patient-list-table">
+            <table class="table align-items-center table-flush table-striped" width="100%" id="patient-list-table">
                 <thead class="thead-light">
                     <tr>
                         <th hidden>ID</th>
@@ -62,7 +62,7 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>    
+                </tbody>
                 @else
                 <tbody></tbody>
                 @endif

@@ -23,19 +23,20 @@
                     <h6 class="fullcalendar-title h2 text-primary d-inline-block mb-0"><span id="classification">All</span> Schedule List</h6>
                 </div>
                 <div class="col-lg-6 col-7 py-4 text-lg-right">
-                    <button class="btn btn-sm btn-primary active" id="all-btn" onclick="dashboardFunctions.changeTableToAll()">All</button>
-                    <button class="btn btn-sm btn-primary" id="current-month-btn" onclick="dashboardFunctions.changeTableToCurrentMonth('{{ $month }}')">Current Month</button>
+                    <button class="btn btn-sm btn-primary active" id="all-btn" onclick="dashboardFunctions.changeTableToAll()">ALL</button>
+                    <button class="btn btn-sm btn-primary" id="current-month-btn" onclick="dashboardFunctions.changeTableToCurrentMonth('{{ $month }}')">CURRENT MONTH</button>
+                    <button class="btn btn-sm btn-primary" id="today-btn" onclick="dashboardFunctions.changeTableToToday('{{ $today }}')">TODAY</button>
                 </div>
             </div>
             <div class="card">
                 <div class="card-body">
-                    <table class="table align-items-center" width="100%" id="clinic-schedule-table">
-                        <thead>
+                    <table class="table table-striped table-flush align-items-center" width="100%" id="clinic-schedule-table">
+                        <thead class="thead-light">
                             <tr>
                                 <th hidden>ID</th>
                                 <th class="font-weight-bold">Patient</th>
-                                <th class="font-weight-bold text-center">Procedure</th>
-                                <th class="font-weight-bold text-center">Description</th>
+                                <th class="font-weight-bold">Procedure</th>
+                                <th class="font-weight-bold">Description</th>
                                 <th class="font-weight-bold text-center">Date</th>
                                 <th class="font-weight-bold text-center">Time</th>
                                 <th class="font-weight-bold text-center">Status</th>
@@ -54,8 +55,8 @@
                                     @endif
                                         <td hidden>{{ $value->schedule_id }}</td>
                                         <td>{{ $value->first_name . ' ' . $value->last_name }}</td>
-                                        <td class="text-center">{{ $value->procedure }}</td>
-                                        <td class="text-center">{{ $value->description }}</td>
+                                        <td>{{ $value->procedure }}</td>
+                                        <td>{{ $value->description }}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($value->date)->format('F d, Y') }}</td>
                                         <td class="text-center">{{ \Carbon\Carbon::parse($value->time)->format('h:i A') }}</td>
                                         @if($value->status == 'to_do')
@@ -84,11 +85,15 @@
     </div>
 </div>
 
+@include('pages.dashboard.modals.delete-modal')
+
 @endsection
 
 @section('page-js')
     <script src="{{ asset('js/dashboard-js.js') }}"></script>
     <script type="text/javascript">
-        dashboardFunctions.onLoad();
+        $(document).ready(function () {
+            dashboardFunctions.onLoad();
+        });
     </script>
 @endsection

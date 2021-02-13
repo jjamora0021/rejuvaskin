@@ -36,6 +36,7 @@ class SchedulesModel extends Model
                     ->where('schedules.deleted_at',false)
                     ->where('patient_information.deleted_at',false)
                     ->orderBy('schedules.date', 'DESC')
+                    ->orderBy('schedules.time', 'DESC')
                     ->get())->toArray();
 
         return $data;
@@ -68,5 +69,20 @@ class SchedulesModel extends Model
                     ->update($data);
 
         return $update;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $schedule_id
+     * @return void
+     */
+    public function deleteSchedule($schedule_id)
+    {
+        $delete = DB::table('schedules')
+                    ->where('id',$schedule_id)
+                    ->update(['deleted_at' => true]);
+
+        return $delete;
     }
 }

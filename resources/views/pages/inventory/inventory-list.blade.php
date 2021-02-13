@@ -22,8 +22,8 @@
                 </div>
             </div>
 
-            <table class="table align-items-center table-striped" width="100%" id="inventory-table">
-                <thead>
+            <table class="table align-items-center table-flush table-striped" width="100%" id="inventory-table">
+                <thead class="thead-light">
                     <tr>
                         <th hidden>Id</th>
                         <th class="font-weight-bold">Medicine</th>
