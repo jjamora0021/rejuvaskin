@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/fileinput.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/dataTables.bootstrap4.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap/responsive.bootstrap4.min.css') }}" type="text/css">
 
     <!-- Argon CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/argon.css') }}" type="text/css">
@@ -58,6 +59,8 @@
     <script src="{{ asset('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/components/vendor/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/js/components/vendor/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/dropzone/dist/min/dropzone.min.js') }}"></script>
     <script src="{{ asset('assets/js/components/vendor/theme.min.js') }}"></script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\PatientInformation;
 use App\Models\PatientHistory;
 use App\Models\Inventory;

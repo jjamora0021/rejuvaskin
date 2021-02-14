@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="header-container align-middle d-flex">
-                    <div class="col-md-6 py-4">
+                <div class="col-md-6 py-4">
                     <h6 class="h2 text-primary d-inline-block mb-0">Patient List</h6>
                 </div>
                 <div class="col-md-6 py-4 text-right">

@@ -20,7 +20,7 @@
 			</ul>
 			<ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
 				<li class="nav-item dropdown">
-					<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<a class="nav-link pr-0" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<div class="media align-items-center">
 							<i class="ni ni-circle-08"></i>
 							<div class="media-body  ml-2  d-none d-lg-block">

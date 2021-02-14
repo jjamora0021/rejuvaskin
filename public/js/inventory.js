@@ -277,12 +277,11 @@ inventoryFunctions = {
                 processData: false, // Important
 		        data: frm,//serialize correct form
 		        success: function(response) {
-                    console.log(response)
-		            if(response == 1) {
+		            if($.isEmptyObject(response) == true) {
                         $('#upload-medicine-modal .modal-body .alert-success').removeClass('d-none');
                         inventoryFunctions.repopulateInventoryListTable();
-                        $('#upload-medicine-modal .card #file').fileinput('reset');
-                        $('#upload-medicine-modal .card #file').fileinput({
+                        $('.fileinput-remove').trigger('click');
+                        $('#upload-medicine-modal .card #file').fileinput('refresh', {
                             showUpload  : false,
                             theme       : "fas",
                             // uploadUrl: '#',

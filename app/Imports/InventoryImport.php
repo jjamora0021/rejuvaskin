@@ -17,7 +17,8 @@ class InventoryImport implements ToModel
     public function model(array $row)
     {
         $data = Inventory::firstWhere('medicine',$row[0]);
-        if(empty($data))
+
+        if(empty($data) || $data == null)
         {
             return new Inventory([
                 'medicine'      => $row[0],

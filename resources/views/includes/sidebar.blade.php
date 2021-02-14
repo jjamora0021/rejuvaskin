@@ -20,6 +20,7 @@
 		<div class="navbar-inner">
 			<!-- Collapse -->
 			<div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <h6 class="heading-small text-muted">Patient Records</h6>
 				<!-- Nav items -->
 				<ul class="navbar-nav">
 					<li class="nav-item">
@@ -54,12 +55,29 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url('inventory-list') }}" id="inventory-list">
-							<i class="fas fa-prescription-bottle text-warning"></i> Inventory
+							<i class="fas fa-prescription-bottle text-warning"></i>
+                            <span class="nav-link-text">Inventory</span>
 						</a>
 					</li>
 				</ul>
 				<!-- Divider -->
 				<hr class="my-3">
+
+                <h6 class="heading-small text-muted">Employees Records</h6>
+                <ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url('time-keeping') }}" id="time-keeping">
+							<i class="fas fa-clock text-default"></i>
+							<span class="nav-link-text">Time Keeping</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ url('leaves') }}" id="leaves">
+							<i class="fas fa-file-invoice text-primary"></i>
+							<span class="nav-link-text">Leave Applications</span>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
