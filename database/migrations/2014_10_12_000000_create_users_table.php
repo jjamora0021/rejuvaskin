@@ -21,6 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->enum('user_role', ['superadmin', 'doctor', 'staff', 'manager']);
             $table->enum('status', ['active', 'inactive', 'blocked'])->default('active');
+            $table->integer('vacation_leave')->default(0);
+            $table->integer('sick_leave')->default(0);
+            $table->integer('service_incentive_leave')->default(0);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

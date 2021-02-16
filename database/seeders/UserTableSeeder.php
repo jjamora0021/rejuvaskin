@@ -28,6 +28,9 @@ class UserTableSeeder extends Seeder
 	            'remember_token' => Str::random(40) . time(),
 	            'user_role' => 'superadmin',
                 'status' => 'ACTIVE',
+                'vacation_leave' => 10,
+                'sick_leave' => 10,
+                'service_incentive_leave' => 5,
 	            'created_at' => $now,
 	            'updated_at' => $now
         	],
@@ -40,6 +43,9 @@ class UserTableSeeder extends Seeder
                 'remember_token' => Str::random(40) . time(),
                 'user_role' => 'manager',
                 'status' => 'ACTIVE',
+                'vacation_leave' => 10,
+                'sick_leave' => 10,
+                'service_incentive_leave' => 5,
                 'created_at' => $now,
                 'updated_at' => $now
             ],

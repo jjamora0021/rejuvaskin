@@ -71,6 +71,12 @@
 							<span class="nav-link-text">Time Keeping</span>
 						</a>
 					</li>
+                    <li class="nav-item">
+						<a class="nav-link" href="{{ url('time-keeping-disputes') }}" id="time-keeping-disputes">
+							<i class="fas fa-calendar-check text-warning"></i>
+							<span class="nav-link-text">Time Keeping Disputes</span>
+						</a>
+					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ url('leaves') }}" id="leaves">
 							<i class="fas fa-file-invoice text-primary"></i>

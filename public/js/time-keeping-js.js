@@ -3,26 +3,6 @@
  */
 timekeepingFunctions = {
     /**
-     * [functions description]
-     *
-     * @return  {[type]}  [return description]
-     */
-    onLoad: function()
-    {
-        $('#time-sheet-table').DataTable({
-            language: {
-	            paginate: {
-	                previous: '<i class="ni ni-bold-left"></i>', // or '>'
-	                next: '<i class="ni ni-bold-right"></i>' // or '<'
-	            }
-	        },
-            ordering: false,
-        });
-
-        timekeepingFunctions.displayCurrentTime();
-    },
-
-    /**
      * [displayCurrentTime description]
      *
      * @return  {[type]}  [return description]
@@ -77,10 +57,13 @@ timekeepingFunctions = {
             success: function (response) {
                 if(response == 1) {
                     $this.replaceWith(moment(time_in, ["h:mm:ss A"]).format("hh:mm A"));
-                    $('.alert-success').removeClass('d-none').empty().append('<strong>Time In Successful!</strong>').fadeOut(10000);
+                    $('.alert-success').removeClass('d-none').empty().append('<strong>Time In Successful!</strong>');
+                    setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
+                    $('#'+today+' td:eq(3) button').prop('disabled', false);
                 }
                 else {
                     $('.alert-danger').removeClass('d-none');
+                    setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
                 }
             }
         });
@@ -93,7 +76,7 @@ timekeepingFunctions = {
      *
      * @return  {[type]}         [return description]
      */
-    saveTimeOut: function(today,emp_id, $this, id)
+    saveTimeOut: function(today,emp_id, $this)
     {
         var time_out = $('#clock').text();
         var time_out_formatted = moment(time_out, ["h:mm:ss A"]).format("HH:mm:ss");
@@ -106,7 +89,6 @@ timekeepingFunctions = {
         $.ajax({
             url: window.location.origin + '/save-time-out',
             data: {
-                id: id,
                 emp_id  : emp_id,
                 time_out : time_out_formatted,
                 date    : date,
@@ -115,17 +97,220 @@ timekeepingFunctions = {
             success: function (response) {
                 if(response == 1) {
                     $this.replaceWith(moment(time_out, ["h:mm:ss A"]).format("hh:mm A"));
-                    $('.alert-success').removeClass('d-none').empty().append('<strong>Time Out Successful!</strong>').fadeOut(10000);
+                    console.log($this);
+                    // $($this).removeClass('text-primary').addClass('text-success');
+                    $('.alert-success').removeClass('d-none').empty().append('<strong>Time Out Successful!</strong>');
+                    setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
                     $('#'+date+' .total_hours').empty().append(total_hours);
-                    var update_btn =    '<a class="btn btn-sm btn-icon btn-warning" data-toggle="tooltip" data-placement="top" title="Update Time Sheet" href="#">\
-                                            <span class="btn-inner--icon">Dispute</span>\
-                                        </a>';
-                    $('#'+today+' td:eq(5)').empty().append(update_btn);
                 }
                 else {
                     $('.alert-danger').removeClass('d-none');
+                    setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
                 }
             }
         });
     },
+
+    /**
+     * [setDisputeDataField description]
+     *
+     * @param   {[type]}  $this  [$this description]
+     *
+     * @return  {[type]}         [return description]
+     */
+    setDisputeDataField: function($this)
+    {
+        var selected = $this.value;
+        switch (selected) {
+            case 'time_in':
+                $('#time_in').prop('disabled', false);
+                $('#time_out, #total_hours, #others').val('').prop('disabled', true);
+                break;
+            case 'time_out':
+                $('#time_out').prop('disabled', false);
+                $('#time_in, #total_hours, #others').val('').prop('disabled', true);
+                break;
+            case 'total_hours':
+                $('#total_hours').prop('disabled', false);
+                $('#time_in, #time_out, #others').val('').prop('disabled', true);
+                break;
+            default:
+                $('#others').prop('disabled', false);
+                $('#time_in, #time_out, #total_hours').val('').prop('disabled', true);
+                break;
+        }
+        $('#select_date').prop('disabled', false);
+    },
+
+    /**
+     * [sendRequest description]
+     *
+     * @return  {[type]}  [return description]
+     */
+    sendRequest: function()
+    {
+        $('#send-time-keeping-request-form').off('submit').on('submit', function() {
+		    var frm = $(this);
+		    $.ajax({
+		        type: "POST",
+		        url: window.location.origin + '/send-time-keeping-request',
+		        data: frm.serialize(),//serialize correct form
+                success: function(response) {
+                    if(response != false) {
+                        $('#dispute-time-keeping-modal .modal-body .alert-success').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
+                        $('#form-container input, #form-container #others').val('').prop('disabled', true);
+                        $('#form-container #select_date').val('').datepicker('refresh');
+                        $('#form-container #type_of_dispute').val('').selectpicker('refresh');
+                    }
+                    else {
+                        $('#dispute-time-keeping-modal .modal-body .alert-danger').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
+                    }
+                    $('#select_date').prop('disabled', false);
+                }
+		    });
+		    return false;
+		});
+    },
+
+    /**
+     * [openActionModal description]
+     *
+     * @param   {[type]}  action      [action description]
+     * @param   {[type]}  dispute_id  [dispute_id description]
+     *
+     * @return  {[type]}              [return description]
+     */
+    openActionModal: function(action, dispute_id)
+    {
+        $('#action-modal').modal();
+        $('#action-modal #dispute_id').val(dispute_id);
+        $('#action-modal #action').val(action);
+    },
+
+    /**
+     * [updateDispute description]
+     *
+     * @return  {[type]}  [return description]
+     */
+    updateDispute: function()
+    {
+        $('#action-modal #action-form').off('submit').on('submit', function() {
+            var row_id =  $('#action-modal #dispute_id').val();
+		    var frm = $(this);
+		    $.ajax({
+		        type: "POST",
+		        url: window.location.origin + '/update-dispute',
+		        data: frm.serialize(),//serialize correct form
+                success: function(response) {
+                    if(response != false) {
+                        $('#action-modal .modal-body .alert-success').empty().append('<strong>Action Success.</strong>').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
+
+                        $('#action-modal #action-form .btn-success').prop('disabled', true);
+
+                        timekeepingFunctions.repopulateTimeKeepingDisputesTable(JSON.parse(response));
+                    }
+                    else {
+                        $('#action-modal .modal-body .alert-danger').empty().append('<strong>Action Failed.</strong>').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
+                    }
+                }
+		    });
+		    return false;
+		});
+    },
+
+    /**
+     * [repopulateTimeKeepingDisputesTable description]
+     *
+     * @param   {[type]}  data  [data description]
+     *
+     * @return  {[type]}        [return description]
+     */
+    repopulateTimeKeepingDisputesTable: function(data)
+    {
+        if ($.fn.DataTable.isDataTable('#time-keeping-dispute-table') ) {
+            $('#time-keeping-dispute-table').DataTable().destroy();
+        }
+
+        $('#time-keeping-dispute-table tbody').empty();
+        var table   =   $('#time-keeping-dispute-table').DataTable({
+                            columnDefs: [
+                                {
+                                    "targets": [ 0 ],
+                                    "visible": false,
+                                    "searchable": false
+                                },
+                                {
+                                    "className": "dt-center",
+                                    "targets": [ 2, 3, 4, 5, 6 ]
+                                },
+                            ],
+                            columns: [
+                                { data: "dispute_id" },
+                                { data: "full_name" },
+                                { data: "date_in_dispute" },
+                                { data: "type_of_dispute" },
+                                { data: "dispute" },
+                                { data: "dispute_status" },
+                                { data: "approved_by" },
+                                { data: "remarks" },
+                                { data: "action" }
+                            ],
+                            language: {
+                                paginate: {
+                                    previous: '<i class="ni ni-bold-left"></i>', // or '>'
+                                    next: '<i class="ni ni-bold-right"></i>' // or '<'
+                                }
+                            }
+                        });
+
+        $.each(data, function(index, el) {
+            var action_btn = '<td class="text-center">\
+                                <button class="btn btn-sm btn-icon btn-success" disabled>\
+                                    <i class="fas fa-check"></i>\
+                                </button>\
+                                <button class="btn btn-sm btn-icon btn-danger" disabled>\
+                                    <i class="fas fa-times"></i>\
+                                </button>\
+                            </td>';
+            el['action'] = action_btn;
+        });
+        table.rows.add(data).draw();
+        $('[data-toggle="tooltip"]').tooltip();
+    },
+
+    /**
+     * [sendLeaveRequest description]
+     *
+     * @return  {[type]}  [return description]
+     */
+    sendLeaveRequest: function()
+    {
+        $('#leave-request-modal #send-leave-request-form').off('submit').on('submit', function() {
+		    var frm = $(this);
+		    $.ajax({
+		        type: "POST",
+		        url: window.location.origin + '/send-leave-request',
+		        data: frm.serialize(),//serialize correct form
+                success: function(response) {
+                    if(response == 1) {
+                        $('#leave-request-modal .modal-body .alert-success').empty().append('<strong>Action Success.</strong>').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
+
+                        $('#leave-request-modal #send-leave-request-form #select_date').val('').datepicker("refresh");
+                        $('#leave-request-modal #send-leave-request-form #leave_type').val('').selectpicker('refresh');
+                        $('#leave-request-modal #send-leave-request-form #description').val('');
+                    }
+                    else {
+                        $('#leave-request-modal .modal-body .alert-danger').empty().append('<strong>Action Failed.</strong>').removeClass('d-none');
+                        setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
+                    }
+                }
+		    });
+		    return false;
+		});
+    }
 }

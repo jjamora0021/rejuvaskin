@@ -53,7 +53,17 @@ Route::get('logout', 'Auth\LoginController@logout');
 // END OF PATIENT SECTION
 
 // EMPLOYEES SECTION
+    // Time Keeping
     Route::get('time-keeping', 'HRController@index')->name('time-keeping');
     Route::get('save-time-in', 'HRController@saveTimeIn')->name('save-time-in');
-    Route::get('save-time-out','HRController@saveTimeOut')->name('save-time-out');
+    Route::get('save-time-out', 'HRController@saveTimeOut')->name('save-time-out');
+
+    Route::get('time-keeping-disputes', 'HRController@loadTimeKeepingDisputesPage')->name('time-keeping-disputes');
+    Route::post('send-time-keeping-request', 'HRController@saveTimeKeepingRequest')->name('send-time-keeping-request');
+    Route::post('update-dispute', 'HRController@updateDispute')->name('update-dispute');
+
+    Route::post('send-leave-request', 'LeavesController@saveLeaveRequest')->name('send-leave-request');
+
+    // Leaves
+    Route::get('leaves', 'LeavesController@index')->name('leaves');
 // END OF EMPLOYEE SECTION
