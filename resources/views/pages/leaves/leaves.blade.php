@@ -33,22 +33,26 @@
                         <tbody>
                             @if(!empty($leave_applications))
                                 @foreach ($leave_applications as $key => $val)
-                                    <tr class="font-weight-bold {{ ($val->status == 'approved') ? 'text-success' : 'text-danger' }}" id="{{ $val->leave_id }}">
-                                        <td hidden>{{ $val->leave_id }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($val->date)->format('F d, Y') }}</td>
-                                        <td>{{ $val->first_name . ' ' . $val->last_name }}</td>
-                                        <td class="text-capitalize text-center">{{ str_replace('_', ' ', $val->leave_type) }}</td>
-                                        <td class="text-center">{{ $val->description }}</td>
-                                        <td class="text-uppercase text-center">{{ $val->status }}</td>
-                                        <td class="text-center">
-                                            <button class="btn btn-sm btn-icon btn-success" {{ ($val->status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.actionLeave({{ $val->leave_id }}, {{ $val->emp_id }}, '{{ $val->leave_type }}', 'approved')" data-toggle="tooltip" data-placement="top" title="Approve">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                            <button class="btn btn-sm btn-icon btn-danger" {{ ($val->status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.actionLeave({{ $val->leave_id }}, {{ $val->emp_id }}, '{{ $val->leave_type }}', 'decline')" data-toggle="tooltip" data-placement="top" title="Decline">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @if($val->status != 'pending')
+                                        <tr class="font-weight-bold {{ ($val->status == 'approved') ? 'text-success' : 'text-danger' }}" id="{{ $val->leave_id }}">
+                                    @else
+                                    <tr class="font-weight-bold" id="{{ $val->leave_id }}">
+                                    @endif
+                                            <td hidden>{{ $val->leave_id }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($val->date)->format('F d, Y') }}</td>
+                                            <td>{{ $val->first_name . ' ' . $val->last_name }}</td>
+                                            <td class="text-capitalize text-center">{{ str_replace('_', ' ', $val->leave_type) }}</td>
+                                            <td class="text-center">{{ $val->description }}</td>
+                                            <td class="text-uppercase text-center">{{ $val->status }}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-sm btn-icon btn-success" {{ ($val->status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.actionLeave({{ $val->leave_id }}, {{ $val->emp_id }}, '{{ $val->leave_type }}', 'approved')" data-toggle="tooltip" data-placement="top" title="Approve">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-icon btn-danger" {{ ($val->status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.actionLeave({{ $val->leave_id }}, {{ $val->emp_id }}, '{{ $val->leave_type }}', 'declined')" data-toggle="tooltip" data-placement="top" title="Decline">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
                                 @endforeach
                             @endif
                         </tbody>

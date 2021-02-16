@@ -99,18 +99,38 @@ class LeavesModel extends Model
      */
     public function actionLeaveRequest($leave_id, $emp_id, $type, $action)
     {
-        try {
-            $update =    DB::transaction(function () use ($leave_id, $emp_id, $type, $action) {
-                            DB::table('leaves')->where('id',$leave_id)->where('emp_id', $emp_id)
-                                ->update([
-                                    'status' => $action,
-                                    'updated_at' => Carbon::now()
-                                ]);
-                            DB::table('users')->where('id',$emp_id)->decrement($type, 1);
-                        });
-            return is_null($update) ? true : $update;
-        } catch (Exception $e) {
-            return false;
+        if($type == 'vacation_leave' || $type == 'sick_leave' || $type == 'service_incentive_leave')
+        {
+            try {
+                $update =    DB::transaction(function () use ($leave_id, $emp_id, $type, $action) {
+                                DB::table('leaves')->where('id',$leave_id)->where('emp_id', $emp_id)
+                                    ->update([
+                                        'status' => $action,
+                                        'updated_at' => Carbon::now()
+                                    ]);
+                                DB::table('users')->where('id',$emp_id)->decrement($type, 1);
+                            });
+                return is_null($update) ? true : $update;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
+        else
+        {
+            $update = DB::table('leaves')->where('id',$leave_id)->where('emp_id', $emp_id)
+                        ->update([
+                            'status' => $action,
+                            'updated_at' => Carbon::now()
+                        ]);
+
+            if($update)
+            {
+                return true;
+            }
+            else
+            {
+                return $update;
+            }
         }
     }
 }
