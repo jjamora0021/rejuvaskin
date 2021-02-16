@@ -63,6 +63,7 @@ Route::get('logout', 'Auth\LoginController@logout');
     Route::post('update-dispute', 'HRController@updateDispute')->name('update-dispute');
 
     Route::post('send-leave-request', 'LeavesController@saveLeaveRequest')->name('send-leave-request');
+    Route::get('action-leave-request', 'LeavesController@actionLeaveRequest')->name('action-leave-request');
 
     // Leaves
     Route::get('leaves', 'LeavesController@index')->name('leaves');

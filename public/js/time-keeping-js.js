@@ -314,5 +314,48 @@ timekeepingFunctions = {
 		    });
 		    return false;
 		});
-    }
+    },
+
+    /**
+     * [actionLeave description]
+     *
+     * @param   {[type]}  leave_id  [leave_id description]
+     * @param   {[type]}  emp_id    [emp_id description]
+     * @param   {[type]}  action    [action description]
+     *
+     * @return  {[type]}            [return description]
+     */
+    actionLeave: function(leave_id, emp_id, leave_type, action)
+    {
+        $.ajax({
+            type: "GET",
+            url: window.location.origin + '/action-leave-request',
+            data: {
+                leave_id : parseInt(leave_id),
+                emp_id : parseInt(emp_id),
+                leave_type: leave_type,
+                action: action,
+            },
+            success: function (response) {
+                if(response == true)
+                {
+                    $('.alert-success').removeClass('d-none').empty().append('<strong>Leave '+action.toUpperCase()+'</strong>');
+                    setTimeout(function(){  $('.alert-success').addClass('d-none') }, 10000);
+                    $('#'+leave_id+' td:eq(5)').empty().append(action.toUpperCase());
+                    $('#'+leave_id+' td:eq(6) button').prop('disabled', true);
+                    if(action == 'approved') {
+                        $('tr#'+leave_id).addClass('text-success');
+                    }
+                    else {
+                        $('tr#'+leave_id).addClass('text-danger');
+                    }
+                }
+                else
+                {
+                    $('.alert-danger').removeClass('d-none').empty().append('<strong>Approval Failed.</strong>');
+                    setTimeout(function(){  $('.alert-danger').addClass('d-none') }, 10000);
+                }
+            }
+        });
+    },
 }

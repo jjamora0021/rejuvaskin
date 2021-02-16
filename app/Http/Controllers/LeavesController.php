@@ -34,7 +34,9 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        return view('pages.leaves.leaves');
+        $leave_applications = $this->LeavesModel->getAllLeaveApplications(Auth::user()->user_role, Auth::user()->id);
+
+        return view('pages.leaves.leaves', compact('leave_applications'));
     }
 
     /**
@@ -57,5 +59,23 @@ class LeavesController extends Controller
         $save = $this->LeavesModel->saveLeaveRequest($data);
 
         return $save;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function actionLeaveRequest(Request $request)
+    {
+        $leave_id = $request['leave_id'];
+        $emp_id = $request['emp_id'];
+        $action = $request['action'];
+        $type = $request['leave_type'];
+
+        $action_leave_request = $this->LeavesModel->actionLeaveRequest($leave_id, $emp_id, $type, $action);
+
+        return $action_leave_request;
     }
 }

@@ -24,6 +24,44 @@ class LeavesModel extends Model
     /**
      * Undocumented function
      *
+     * @param [type] $user_role
+     * @param [type] $emp_id
+     * @return void
+     */
+    public function getAllLeaveApplications($user_role, $emp_id)
+    {
+        if($user_role == 'superadmin')
+        {
+            $data = (DB::table('leaves')
+                        ->leftJoin('users','leaves.emp_id','users.id')
+                        ->select(
+                            'users.id as emp_id',
+                            'users.first_name',
+                            'users.last_name',
+                            'leaves.id as leave_id',
+                            'leaves.date',
+                            'leaves.leave_type',
+                            'leaves.description',
+                            'leaves.status',
+                            'leaves.approved_by'
+                        )
+                        ->get())->toArray();
+
+            return $data;
+        }
+        else
+        {
+            $data = (DB::table('leaves')->where('emp_id',$emp_id)
+                        ->leftJoin('users','leaves.emp_id','users.id')
+                        ->get())->toArray();
+
+            return $data;
+        }
+    }
+
+    /**
+     * Undocumented function
+     *
      * @param [type] $emp_id
      * @return void
      */
@@ -49,5 +87,30 @@ class LeavesModel extends Model
         $save = DB::table('leaves')->insert($data);
 
         return $save;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $leave_id
+     * @param [type] $emp_id
+     * @param [type] $action
+     * @return void
+     */
+    public function actionLeaveRequest($leave_id, $emp_id, $type, $action)
+    {
+        try {
+            $update =    DB::transaction(function () use ($leave_id, $emp_id, $type, $action) {
+                            DB::table('leaves')->where('id',$leave_id)->where('emp_id', $emp_id)
+                                ->update([
+                                    'status' => $action,
+                                    'updated_at' => Carbon::now()
+                                ]);
+                            DB::table('users')->where('id',$emp_id)->decrement($type, 1);
+                        });
+            return is_null($update) ? true : $update;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }
