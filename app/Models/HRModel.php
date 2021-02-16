@@ -91,7 +91,8 @@ class HRModel extends Model
                             'time_keeping_disputes.approved_by as approved_by',
                             DB::raw('CONCAT(users.first_name," ",users.last_name ) AS full_name'),
                             'users.user_role as user_role',
-                            'users_status as user_status'
+                            'users.status as user_status',
+                            'users.id as emp_id'
                         )
                         ->orderBy('time_keeping_disputes.date_in_dispute','desc')
                         ->get()
@@ -112,7 +113,8 @@ class HRModel extends Model
                             'time_keeping_disputes.remarks as remarks',
                             DB::raw('CONCAT(users.first_name," ",users.last_name ) AS full_name'),
                             'users.user_role as user_role',
-                            'users.status as user_status'
+                            'users.status as user_status',
+                            'users.id as emp_id'
                         )
                         ->orderBy('time_keeping_disputes.date_in_dispute','desc')
                         ->get()
@@ -144,10 +146,14 @@ class HRModel extends Model
      */
     public function updateDispute($dispute_id, $data)
     {
-        $update = DB::table('time_keeping_disputes')
-                    ->where('id', $dispute_id)
-                    ->update($data);
+        // $update = DB::transaction(function () {
+        //             DB::table('time_keeping_disputes')
+        //                     ->where('id', $dispute_id)
+        //                     ->update($data);
 
-        return $update;
+        //             DB::table('time_keeping_records')->where();
+        //         });
+
+        // return $update;
     }
 }

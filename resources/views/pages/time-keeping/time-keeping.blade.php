@@ -16,9 +16,9 @@
                     <button class="btn btn-sm btn-success text-right" data-toggle="modal" data-target="#leave-request-modal">
                         Leave Request
                     </button>
-                    <button class="btn btn-sm btn-warning text-right" data-toggle="modal" data-target="#dispute-time-keeping-modal">
+                    {{-- <button class="btn btn-sm btn-warning text-right" data-toggle="modal" data-target="#dispute-time-keeping-modal">
                         Time Keeping Correction
-                    </button>
+                    </button> --}}
                 </div>
             </div>
 

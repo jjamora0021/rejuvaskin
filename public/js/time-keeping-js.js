@@ -182,11 +182,13 @@ timekeepingFunctions = {
      *
      * @return  {[type]}              [return description]
      */
-    openActionModal: function(action, dispute_id)
+    openActionModal: function(action, dispute_id, date, emp_id)
     {
         $('#action-modal').modal();
         $('#action-modal #dispute_id').val(dispute_id);
         $('#action-modal #action').val(action);
+        $('#action-modal #date').val(date);
+        $('#action-modal #emp_id').val(emp_id);
     },
 
     /**

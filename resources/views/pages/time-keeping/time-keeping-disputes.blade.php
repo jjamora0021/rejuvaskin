@@ -46,10 +46,10 @@
                                         <td class="text-center">{{ ($value->approved_by == null) ? '' : $value->approved_by }}</td>
                                         <td>{{ $value->remarks }}</td>
                                         <td>
-                                            <button class="btn btn-sm btn-icon btn-success" {{ ($value->dispute_status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.openActionModal('approved', {{ $value->dispute_id }});" data-toggle="tooltip" data-placement="top" title="Approve">
+                                            <button class="btn btn-sm btn-icon btn-success" {{ ($value->dispute_status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.openActionModal('approved', {{ $value->dispute_id }}, '{{ $value->date_in_dispute }}', {{ $value->emp_id }});" data-toggle="tooltip" data-placement="top" title="Approve">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            <button class="btn btn-sm btn-icon btn-danger" {{ ($value->dispute_status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.openActionModal('declined', {{ $value->dispute_id }});" data-toggle="tooltip" data-placement="top" title="Decline">
+                                            <button class="btn btn-sm btn-icon btn-danger" {{ ($value->dispute_status != 'pending') ? 'disabled' : '' }} onclick="timekeepingFunctions.openActionModal('declined', {{ $value->dispute_id }}, '{{ $value->date_in_dispute }}', {{ $value->emp_id }});" data-toggle="tooltip" data-placement="top" title="Decline">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </td>
@@ -80,6 +80,8 @@
 
                 <form action="{{ route('update-dispute') }}" method="POST" id="action-form">
                     @csrf
+                    <input type="hidden" value="" id="emp_id" name="emp_id">
+                    <input type="hidden" value="" id="date" name="date">
                     <input type="hidden" value="" id="dispute_id" name="dispute_id">
                     <input type="hidden" value="" id="action" name="action">
                     <div class="form-group mb-4">
